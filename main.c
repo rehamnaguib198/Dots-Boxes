@@ -2,6 +2,8 @@
 #include <Windows.h>
 #include <conio.h>
 #include <stdlib.h>
+#include "players.h"
+
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
@@ -9,9 +11,14 @@ int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
 int ClcdBtn,wchSign=0; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
 int Arrow=0,ArrowVal=1,main_choice=1,player_mode=1,game_difficulty=1,ex=1; char backKey;  // MAIN MENU VARIABLES --- ARROW AND ARROWVAL FOR THE MOVING ARROW IN THE MAIN MENU
 char PlayerSign;
-int turns=0,wchPlayer=1,Player1Score=0,Player2Score=0;
+int turns=0,wchPlayer=1;
 char A[100][100]; // THE PLAY GROUND.
 int  B[100][100]; // ARRAY OF 1 AND 0 FOR REMAINING DOTS AND SOME CHECKS.
+//-----------------------------------------Players Stucture ----------------------------------
+struct Players Player1;
+struct Players Player2;
+
+
 void main()
 {
     //---------------------------TAKING THE SIZE OF PLAY GROUND----------------------------------
@@ -29,7 +36,7 @@ void main()
         {
             if (i%2==0 && y%2==0)
             {
-                A[i][y]='O';
+                A[i][y]=4;
             }
             else
             {
@@ -46,6 +53,26 @@ void main()
             B[i][y]=1;
         }
     }
+
+     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
+    for(i=0; i<R; i++)
+    {
+        for(y=0; y<C; y++)
+        {
+            Player1.Player_Info[i][y]=0;
+        }
+    }
+
+     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
+    for(i=0; i<R; i++)
+    {
+        for(y=0; y<C; y++)
+        {
+            Player2.Player_Info[i][y]=0;
+        }
+    }
+
+
     //---------------------------HERE THE GAME STARTS 3:)----------------------------------
     system("cls");
     printf("\n");
@@ -95,11 +122,11 @@ void First_Print()
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1Score);
+            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1.Score);
         }
         else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2Score);
+            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2.Score);
         }
         else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
         {
@@ -130,11 +157,11 @@ void Print()
             {
                 if(wchPlayer==1)
                 {
-                    Change_Color(4);
+                    Change_Color(15);
                 }
                 else if(wchPlayer==2)
                 {
-                    Change_Color(9);
+                    Change_Color(15);
                 }
                 printf("%c",A[i][y]);
                 Reset_Color();
@@ -142,17 +169,19 @@ void Print()
 
             else // ELSE PRINT THE PLAYGROUND WITH THE ORDINARY COLOR.
             {
+                Change_Player_Color(i,y);
                 printf("%c",A[i][y]);
+                Reset_Color();
             }
         }
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1Score);
+            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1.Score);
         }
         else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2Score);
+            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2.Score);
         }
         else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
         {
@@ -258,6 +287,7 @@ ExitOrNot:
             {
                 B[CruR][CruC]=0;
                 Check_Box();
+                Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
             }
 
@@ -316,7 +346,9 @@ ExitOrNot:
             {
                 B[CruR][CruC]=0;
                 Check_Box();
+                Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
+
             }
         }
 
@@ -703,11 +735,13 @@ void Check_Box()
                 A[CruR+1][CruC]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR+1][CruC]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR+1][CruC]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -720,11 +754,13 @@ void Check_Box()
                 A[CruR-1][CruC]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR-1][CruC]=2;
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR-1][CruC]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -739,11 +775,15 @@ void Check_Box()
                 A[CruR-1][CruC]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
-                    Player1Score+=2;
+                    Player1.Score+=2;
+                    Player1.Player_Info[CruR+1][CruC]=2;
+                    Player1.Player_Info[CruR-1][CruC]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
-                    Player2Score+=2;
+                    Player2.Score+=2;
+                    Player2.Player_Info[CruR+1][CruC]=2;
+                    Player2.Player_Info[CruR-1][CruC]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -753,11 +793,13 @@ void Check_Box()
                 A[CruR-1][CruC]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR-1][CruC]=2;
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR-1][CruC]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -766,11 +808,13 @@ void Check_Box()
                 A[CruR+1][CruC]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR+1][CruC]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR+1][CruC]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -788,11 +832,13 @@ void Check_Box()
                 A[CruR][CruC+1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR][CruC+1]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR][CruC+1]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -805,11 +851,13 @@ void Check_Box()
 
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR][CruC-1]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR][CruC-1]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -823,11 +871,15 @@ void Check_Box()
                 A[CruR][CruC-1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
-                    Player1Score+=2;
+                    Player1.Score+=2;
+                    Player1.Player_Info[CruR][CruC+1]=2;
+                    Player1.Player_Info[CruR][CruC-1]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
-                    Player2Score+=2;
+                    Player2.Score+=2;
+                    Player2.Player_Info[CruR][CruC+1]=2;
+                    Player2.Player_Info[CruR][CruC-1]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -835,13 +887,16 @@ void Check_Box()
             {
                 A[CruR][CruC-1]=PlayerSign;
 
+
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR][CruC-1]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR][CruC-1]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -850,11 +905,13 @@ void Check_Box()
                 A[CruR][CruC+1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player1Score+=1;
+                    Player1.Score+=1;
+                    Player1.Player_Info[CruR][CruC+1]=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
-                    Player2Score+=1;
+                    Player2.Score+=1;
+                    Player2.Player_Info[CruR][CruC+1]=2;
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -889,4 +946,28 @@ void Reset_To_Back(){
     main_choice=1;
     game_difficulty=1;
     player_mode=1;
+}
+
+void Change_In_Player_Info(int i,int y){
+    if(wchPlayer==1){
+        Player1.Player_Info[i][y]=1;
+
+    }
+    else if (wchPlayer==2){
+        Player2.Player_Info[i][y]=1;
+    }
+}
+void Change_Player_Color(int i,int y){
+    if(Player1.Player_Info[i][y]==1){
+        Change_Color(4);
+    }
+    else if(Player1.Player_Info[i][y]==2){
+        Change_Color(79);
+    }
+    else if(Player2.Player_Info[i][y]==1){
+        Change_Color(11);
+    }
+     else if(Player2.Player_Info[i][y]==2){
+        Change_Color(63);
+}
 }

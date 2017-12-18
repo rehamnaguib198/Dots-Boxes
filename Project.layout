@@ -2,19 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
+	<File name="players.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="188" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="main.c" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="6966" topLine="11" />
+			<Cursor1 position="4911" topLine="140" />
 		</Cursor>
-		<Folding>
-			<Collapse line="15" />
-			<Collapse line="64" />
-			<Collapse line="71" />
-			<Collapse line="80" />
-			<Collapse line="116" />
-			<Collapse line="367" />
-			<Collapse line="389" />
-			<Collapse line="868" />
-		</Folding>
 	</File>
 </CodeBlocks_layout_file>
