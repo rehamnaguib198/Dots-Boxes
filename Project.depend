@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1511378750 source:d:\kolya\1st year\programming\final project\project\main.c
+	<stdio.h>
+	<Windows.h>
+
+1511480267 source:c:\users\arabtech\downloads\games\project\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+
