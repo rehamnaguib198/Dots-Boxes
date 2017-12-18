@@ -6,8 +6,8 @@ int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW A
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
 int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
-int ClcdBtn,wchSign=0,Arrow=0,ArrowVal=1; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
-char main_choice=49,player_mode,game_difficulty,ex,backKey; // MAIN MENU VARIABLES
+int ClcdBtn,wchSign=0; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
+int Arrow=0,ArrowVal=1,main_choice=1,player_mode=1,game_difficulty=1,ex=1; char backKey;  // MAIN MENU VARIABLES --- ARROW AND ARROWVAL FOR THE MOVING ARROW IN THE MAIN MENU
 char PlayerSign;
 int turns=0,wchPlayer=1,Player1Score=0,Player2Score=0;
 char A[100][100]; // THE PLAY GROUND.
@@ -197,23 +197,54 @@ Move:
     }
     else if (ClcdBtn==27)
     {
+ArrowVal=1;
 ExitOrNot:
         system("cls");
-        printf("\tAre You Sure You Want To Exit This Game ? \n\n\tChoose:\n\t1-Yes\n\t2-No");
-        ex=getche();
+        switch(ArrowVal){
+           case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+        printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
+        break;
+        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+        printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
+        break;
+        }
+
+        Arrow=getche();
+        switch(Arrow){
+            case 72:
+                if(ArrowVal>1){
+                        ArrowVal--;
+                        ex--;
+                }
+                goto ExitOrNot;
+                break;
+            case 80:
+                if(ArrowVal<2){
+                        ArrowVal++;
+                        ex++;
+                }
+                goto ExitOrNot;
+                break;
+            case 13:
+                break;
+            default: goto ExitOrNot;
+
+        }
         switch(ex)
         {
-        case 49:
+        case 1: // BUTTON 1
             exit(0);
             break;
-        case 50:
+        case 2: //BUTTON 2
+            Reset_To_Back();
             system("cls");
             Print();
-            goto Move ;
+            goto Move;
             break;
         default:
             goto ExitOrNot;
         }
+
     }
 
     if(wchSign==4) // IF THE SIGN IS |..
@@ -359,56 +390,142 @@ void start_menu()
 {
 menu:
     system("cls");
-    switch(ArrowVal){
+    switch(ArrowVal)
+    {
 
-        case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
-        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t----->2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
-        case 3: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t----->3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
-        case 4: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t----->4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
-        case 5: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t----->5-Exit\n"); break;
+    case 1:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n");
+        break;
+    case 2:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t----->2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n");
+        break;
+    case 3:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t----->3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n");
+        break;
+    case 4:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t----->4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n");
+        break;
+    case 5:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t----->5-Exit\n");
+        break;
     }
     Arrow=getche();
-    switch(Arrow){
-        case 72:if(ArrowVal>1){
+    switch(Arrow)
+    {
+
+    case 72: // UP
+        if(ArrowVal>1)
+        {
             ArrowVal--;
             main_choice--;
-        }goto menu;
+        }
+        goto menu;
         break;
-        case 80:if(ArrowVal<5){
+    case 80: // DOWN
+        if(ArrowVal<5)
+        {
             ArrowVal++;
             main_choice++;
-            goto menu;
-        }break;
-        case 13 :break;
-        default: goto menu;
+        }
+        goto menu;
+        break;
+    case 13 : // ENTER
+        break;
+    default:
+        goto menu;
     }
 
     switch(main_choice)
     {
 
-    case 49: //BUTTON 1 FOR -NEW GAME-
+    case 1: //BUTTON 1 FOR -NEW GAME-
+        ArrowVal=1;
 New_Game:
         system("cls");
-        printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
-        printf("\t\t\t\t\t\t\t1-player vs computer\n\n\t\t\t\t\t\t\t2-player1 vs player2\n");
-        player_mode=getche();
+        switch(ArrowVal){
+         case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
+                 printf("\t\t\t\t\t\t----->1-player vs computer\n\n\t\t\t\t\t\t\t2-player1 vs player2\n"); break;
+         case 2: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
+                 printf("\t\t\t\t\t\t\t1-player vs computer\n\n\t\t\t\t\t\t----->2-player1 vs player2\n"); break;
+        }
+        Arrow=getche();
+        switch(Arrow){
+            case 27: Reset_To_Back();goto menu; break; //ESC TO GO BACK
+            case 72: // UP
+        if(ArrowVal>1)
+        {
+            ArrowVal--;
+            player_mode--;
+        }
+        goto New_Game;
+        break;
+    case 80: //DOWN
+        if(ArrowVal<2)
+        {
+            ArrowVal++;
+            player_mode++;
+
+        }
+        goto New_Game;
+        break;
+    case 13 : // ENTER
+        break;
+    default:
+        goto New_Game;
+        }
+
         switch(player_mode)
         {
-        case 49: // BUTTON 1 FOR PLAYER VS COMPUTER
+        case 1:  // BUTTON 1 FOR PLAYER VS COMPUTER
+            ArrowVal=1;
 Player_Vs_Comp:
             system("cls");
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
-            game_difficulty=getche();
+            switch (ArrowVal){
+            case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+                break;
+                case 2:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+                break;
+                case 3:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
+                break;
+            }
+            Arrow=getche();
+            switch(Arrow){
+                case 27: Reset_To_Back();goto New_Game; break;
+                 case 72:
+        if(ArrowVal>1)
+        {
+            ArrowVal--;
+            game_difficulty--;
+        }
+        goto Player_Vs_Comp;
+        break;
+    case 80:
+        if(ArrowVal<3)
+        {
+            ArrowVal++;
+            game_difficulty++;
+
+        }
+        goto Player_Vs_Comp;
+        break;
+    case 13 :
+        break;
+    default:
+        goto Player_Vs_Comp;
+
+            }
             switch(game_difficulty)
             {
-            case 49: // BUTTON 1 FOR BEGINNER
+            case 1: // BUTTON 1 FOR BEGINNER
                 R1=3,C1=3;
                 break;
-            case 50: // BUTTON 2 FOR EXPERT
+            case 2: // BUTTON 2 FOR EXPERT
                 R1=5,C1=5;
                 break;
-            case 51: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
+            case 3: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
                 system("cls");
                 printf("Enter number of rows.\n");
                 scanf("%d",&R1);
@@ -420,21 +537,56 @@ Player_Vs_Comp:
                 goto Player_Vs_Comp;
             }
             break;
-        case 50: // BUTTON 2 FOR PLAYER 1 VS PLAYER 2
+        case 2: // BUTTON 2 FOR PLAYER 1 VS PLAYER 2
+ArrowVal=1;
 Player1_Vs_Player2:
             system("cls");
-            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
-            game_difficulty=getche();
+            switch (ArrowVal){
+            case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+                break;
+                case 2:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+                break;
+                case 3:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
+                break;
+            }
+            Arrow=getche();
+            switch(Arrow){
+                case 27: Reset_To_Back();goto New_Game; break;
+                 case 72:
+        if(ArrowVal>1)
+        {
+            ArrowVal--;
+            game_difficulty--;
+        }
+        goto Player1_Vs_Player2;
+        break;
+    case 80:
+        if(ArrowVal<3)
+        {
+            ArrowVal++;
+            game_difficulty++;
+
+        }
+        goto Player1_Vs_Player2;
+        break;
+    case 13 :
+        break;
+    default:
+        goto Player1_Vs_Player2;
+
+            }
             switch(game_difficulty)
             {
-            case 49: // BUTTON 1 FOR BEGINNER
+            case 1: // BUTTON 1 FOR BEGINNER
                 R1=3,C1=3;
                 break;
-            case 50: // BUTTON 2 FOR EXPERT
+            case 2: // BUTTON 2 FOR EXPERT
                 R1=5,C1=5;
                 break;
-            case 51: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
+            case 3: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
                 system("cls");
                 printf("Enter number of rows.\n");
                 scanf("%d",&R1);
@@ -443,15 +595,13 @@ Player1_Vs_Player2:
                 scanf("%d",&C1);
                 break;
             default:
-                goto Player1_Vs_Player2;
+        goto Player1_Vs_Player2;
             }
             break;
-        default:
-            goto New_Game;
         }
         break;
 //HOW TO PLAY//
-    case 50: //BUTTON 2 FOR -HOW TO PLAY-
+    case 2: //BUTTON 2 FOR -HOW TO PLAY-
         system("cls");
         printf("\n\n\t\t\t\t\t\t\tHow to play\n\n");
         printf("\t\t  The two players take turns to join two adjacent dots with a horizontal or vertical line. \n");
@@ -475,26 +625,58 @@ Player1_Vs_Player2:
         }
         break;
     //load game//
-    case 51: // BUTTON 3
+    case 3: // BUTTON 3
         printf("Not Available");
         break;
 //top 10 players//
-    case 52: // BUTTON 4
+    case 4: // BUTTON 4
         printf("Not Available");
         break;
 //exit//
-    case 53: // BUTTON 5
+    case 5: // BUTTON 5
+        ArrowVal=1;
 exit:
         system("cls");
-        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
-        printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
-        ex=getche();
+        switch(ArrowVal){
+           case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+        printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
+        break;
+        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+        printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
+        break;
+        }
+
+        Arrow=getche();
+        switch(Arrow){
+            case 72:
+                if(ArrowVal>1){
+                        ArrowVal--;
+                        ex--;
+                }
+                goto exit;
+                break;
+            case 80:
+                if(ArrowVal<2){
+                        ArrowVal++;
+                        ex++;
+                }
+                goto exit;
+                break;
+            case 13:
+                break;
+            default: goto exit;
+
+        }
         switch(ex)
         {
-        case 49: // BUTTON 1
+        case 1: // BUTTON 1
             exit(0);
             break;
-        case 50: //BUTTON 2
+        case 2: //BUTTON 2
+            ArrowVal=1;
+            main_choice=1;
+            Arrow=1;
+            ex=1;
             goto menu;
             break;
         default:
@@ -698,4 +880,13 @@ void wchPlayerMove()
     }
 
 }
+//---------------------------FUNCTION TO RESET ALL THE VARIABLE WE USE IN MAIN MENUE SO IT DOESNT AFFECT ON EACH OTHER WHEN WE BACK ----------------------------------
 
+void Reset_To_Back(){
+    Arrow=1;
+    ArrowVal=1;
+    ex=1;
+    main_choice=1;
+    game_difficulty=1;
+    player_mode=1;
+}
