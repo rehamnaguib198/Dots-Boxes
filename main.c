@@ -6,8 +6,8 @@ int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW A
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
 int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
-int ClcdBtn,wchSign=0; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
-char main_choice,player_mode,game_difficulty,ex,backKey; // MAIN MENU VARIABLES
+int ClcdBtn,wchSign=0,Arrow=0,ArrowVal=1; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
+char main_choice=49,player_mode,game_difficulty,ex,backKey; // MAIN MENU VARIABLES
 char PlayerSign;
 int turns=0,wchPlayer=1,Player1Score=0,Player2Score=0;
 char A[100][100]; // THE PLAY GROUND.
@@ -93,11 +93,22 @@ void First_Print()
             printf("%c",A[i][y]);
         }
         printf(" |"); // THE LEFT SIDE FRAME
-        printf("\n\t\t\t\t\t\t\t");
+        if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        {
+            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1Score);
+        }
+        else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        {
+            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2Score);
+        }
+        else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
+        {
+            printf("\n\t\t\t\t\t\t\t");
+        }
     }
-    for(i=0; i<C+4; i++) // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
+    for(i=0; i<C+4; i++)
     {
-        printf("-");
+        printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     }
 }
 //---------------------------FUNCTION TO PRINT THE PLAY GROUND DURING THE GAME----------------------------------
@@ -119,11 +130,11 @@ void Print()
             {
                 if(wchPlayer==1)
                 {
-                    Change_Color(5);
+                    Change_Color(4);
                 }
                 else if(wchPlayer==2)
                 {
-                    Change_Color(3);
+                    Change_Color(9);
                 }
                 printf("%c",A[i][y]);
                 Reset_Color();
@@ -348,8 +359,30 @@ void start_menu()
 {
 menu:
     system("cls");
-    printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n");
-    main_choice=getche();
+    switch(ArrowVal){
+
+        case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
+        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t----->2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
+        case 3: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t----->3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
+        case 4: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t----->4-Top 10 player\n\n \t\t\t\t\t\t\t5-Exit\n"); break;
+        case 5: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-New Game\n\n \t\t\t\t\t\t\t2-How To Play \n \n\t\t\t\t\t\t\t3-Load Game \n\n \t\t\t\t\t\t\t4-Top 10 player\n\n \t\t\t\t\t\t----->5-Exit\n"); break;
+    }
+    Arrow=getche();
+    switch(Arrow){
+        case 72:if(ArrowVal>1){
+            ArrowVal--;
+            main_choice--;
+        }goto menu;
+        break;
+        case 80:if(ArrowVal<5){
+            ArrowVal++;
+            main_choice++;
+            goto menu;
+        }break;
+        case 13 :break;
+        default: goto menu;
+    }
+
     switch(main_choice)
     {
 
@@ -524,6 +557,7 @@ void Check_Box()
                 A[CruR-1][CruC]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
+                    Player1Score+=2;
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
