@@ -4,17 +4,19 @@
 #include <stdlib.h>
 #include "players.h"
 #include <time.h>
- time_t start,end;
- clock_t start, end;
-  double dif=0;
+time_t start,end;
+clock_t start, end;
+double dif=0;
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
 int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
 int ClcdBtn,wchSign=0; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
-int Arrow=0,ArrowVal=1,main_choice=1,player_mode=1,game_difficulty=1,ex=1; char backKey;  // MAIN MENU VARIABLES --- ARROW AND ARROWVAL FOR THE MOVING ARROW IN THE MAIN MENU
+int Arrow=0,ArrowVal=1,main_choice=1,player_mode=1,game_difficulty=1,ex=1;
+char backKey;  // MAIN MENU VARIABLES --- ARROW AND ARROWVAL FOR THE MOVING ARROW IN THE MAIN MENU
 char PlayerSign;
 int turns=0,wchPlayer=1;
+int After_Game=1;
 char A[100][100]; // THE PLAY GROUND.
 int  B[100][100]; // ARRAY OF 1 AND 0 FOR REMAINING DOTS AND SOME CHECKS.
 int sum=0; //sums up all the ones in the B array to know when the game ends.
@@ -27,21 +29,53 @@ struct Players Player2;
 void main()
 {
     //---------------------------TAKING THE SIZE OF PLAY GROUND----------------------------------
-
-    // scanning number of dots he needs to play on ..
+VoidMenu:
     start_menu();
     R=R1*2-1; // adding places for the -
     C=C1*2-1; // adding places for the |
-
+Play_Again:
     //---------------------------arranging the play ground----------------------------------
+    Arranging_Play_Ground(R,C);
+    //---------------------------HERE THE GAME STARTS 3:)----------------------------------
+    system("cls");
+    printf("\n");
+    First_Print();
+    endgame(&sum);
+    while(sum>0)
+    {
+        start = clock();
+        Moving();
+        end = clock();
+        dif+= (end-start)/(double)CLOCKS_PER_SEC;
+        system("cls");
+        Print();
+    }
+    winner();
+    aftergame();
+    if (After_Game==1)
+    {
+        Reset_After_Game();
+        goto Play_Again;
+    }
+    else if (After_Game==2)
+    {
+        Reset_After_Game();
+        Reset_To_Back();
+        goto VoidMenu;
+    }
 
+}
+
+//---------------------------FUNCTION TO ARRANGE THE PLAY GROUND AND ANOTHER ARRAYS THAT WILL HELP----------------------------------
+Arranging_Play_Ground(int R,int C)
+{
     for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
         {
             if (i%2==0 && y%2==0)
             {
-                A[i][y]=4;
+                A[i][y]=254;
             }
             else
             {
@@ -51,13 +85,14 @@ void main()
     }
 
     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS AND TO CHEACK IF A PLACE WERE TAKEN OR NOT----------------------------------
-   for(i=0; i<R; i++)
+    for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
         {
-            if (i%2==1 && y%2==1){
-            B[i][y]=0;
-        }
+            if (i%2==1 && y%2==1)
+            {
+                B[i][y]=0;
+            }
             else if (i%2==0 && y%2==0)
             {
                 B[i][y]=0;
@@ -68,7 +103,7 @@ void main()
             }
         }
     }
-     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
     for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
@@ -77,7 +112,7 @@ void main()
         }
     }
 
-     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
     for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
@@ -85,27 +120,7 @@ void main()
             Player2.Player_Info[i][y]=0;
         }
     }
-
-
-    //---------------------------HERE THE GAME STARTS 3:)----------------------------------
-    system("cls");
-    printf("\n");
-    First_Print();
-    endgame(&sum);
-    while(sum>0)
-    {
-start = clock();
-        Moving();
-    end = clock();
-        dif+= (end-start)/(double)CLOCKS_PER_SEC;
-        system("cls");
-        Print();
-    }
-    winner();
-    aftergame();
-
 }
-
 //---------------------------FUNCTION TO CHANGE TEXT'S COLOR DEPENDS On THE PLAYER NUMBER P----------------------------------
 
 void Change_Color(int P)
@@ -144,7 +159,7 @@ void First_Print()
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-           Change_Color(116);
+            Change_Color(116);
             printf("\n Player 1 Score: %i ",Player1.Score);
             Reset_Color();
             printf("\t\t\t\t\t");
@@ -170,17 +185,19 @@ void First_Print()
 
 void Print()
 {
-     printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
-     if(wchPlayer==1){
-            Change_Color(4);
-    printf("\t\t\t\t\t\t    Player 1 's Turn...");
-    Reset_Color();
-     }
-     else if (wchPlayer==2){
-            Change_Color(11);
-    printf("\t\t\t\t\t\t      Player 2 's Turn...");
-    Reset_Color();
-     }
+    printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
+    if(wchPlayer==1)
+    {
+        Change_Color(4);
+        printf("\t\t\t\t\t\t    Player 1 's Turn...");
+        Reset_Color();
+    }
+    else if (wchPlayer==2)
+    {
+        Change_Color(11);
+        printf("\t\t\t\t\t\t      Player 2 's Turn...");
+        Reset_Color();
+    }
     printf("\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
     for(i=0; i<C+4; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     {
@@ -238,10 +255,11 @@ void Print()
         printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     }
     int minute=dif/60;
-    if(dif>=60){
+    if(dif>=60)
+    {
         dif-=60;
     }
-    printf("\n\t\t\tTIME IS :%i:%.2lf",minute ,dif);
+    printf("\n\t\t\tTIME IS :%i:%.2lf",minute,dif);
 
 }
 
@@ -276,37 +294,44 @@ Move:
     }
     else if (ClcdBtn==27)
     {
-ArrowVal=1;
+        ArrowVal=1;
 ExitOrNot:
         system("cls");
-        switch(ArrowVal){
-           case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
-        printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
-        break;
-        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
-        printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
-        break;
+        switch(ArrowVal)
+        {
+        case 1:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+            printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
+            break;
+        case 2:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+            printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
+            break;
         }
 
         Arrow=getche();
-        switch(Arrow){
-            case 72:
-                if(ArrowVal>1){
-                        ArrowVal--;
-                        ex--;
-                }
-                goto ExitOrNot;
-                break;
-            case 80:
-                if(ArrowVal<2){
-                        ArrowVal++;
-                        ex++;
-                }
-                goto ExitOrNot;
-                break;
-            case 13:
-                break;
-            default: goto ExitOrNot;
+        switch(Arrow)
+        {
+        case 72:
+            if(ArrowVal>1)
+            {
+                ArrowVal--;
+                ex--;
+            }
+            goto ExitOrNot;
+            break;
+        case 80:
+            if(ArrowVal<2)
+            {
+                ArrowVal++;
+                ex++;
+            }
+            goto ExitOrNot;
+            break;
+        case 13:
+            break;
+        default:
+            goto ExitOrNot;
 
         }
         switch(ex)
@@ -340,6 +365,8 @@ ExitOrNot:
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
+                sound();
+
             }
 
         }
@@ -400,6 +427,7 @@ ExitOrNot:
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
+                sound();
 
             }
         }
@@ -526,36 +554,45 @@ menu:
         ArrowVal=1;
 New_Game:
         system("cls");
-        switch(ArrowVal){
-         case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
-                 printf("\t\t\t\t\t\t----->1-player vs computer\n\n\t\t\t\t\t\t\t2-player1 vs player2\n"); break;
-         case 2: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
-                 printf("\t\t\t\t\t\t\t1-player vs computer\n\n\t\t\t\t\t\t----->2-player1 vs player2\n"); break;
+        switch(ArrowVal)
+        {
+        case 1:
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
+            printf("\t\t\t\t\t\t----->1-player vs computer\n\n\t\t\t\t\t\t\t2-player1 vs player2\n");
+            break;
+        case 2:
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Mode:\n\n\n");
+            printf("\t\t\t\t\t\t\t1-player vs computer\n\n\t\t\t\t\t\t----->2-player1 vs player2\n");
+            break;
         }
         Arrow=getche();
-        switch(Arrow){
-            case 27: Reset_To_Back();goto menu; break; //ESC TO GO BACK
-            case 72: // UP
-        if(ArrowVal>1)
+        switch(Arrow)
         {
-            ArrowVal--;
-            player_mode--;
-        }
-        goto New_Game;
-        break;
-    case 80: //DOWN
-        if(ArrowVal<2)
-        {
-            ArrowVal++;
-            player_mode++;
+        case 27:
+            Reset_To_Back();
+            goto menu;
+            break; //ESC TO GO BACK
+        case 72: // UP
+            if(ArrowVal>1)
+            {
+                ArrowVal--;
+                player_mode--;
+            }
+            goto New_Game;
+            break;
+        case 80: //DOWN
+            if(ArrowVal<2)
+            {
+                ArrowVal++;
+                player_mode++;
 
-        }
-        goto New_Game;
-        break;
-    case 13 : // ENTER
-        break;
-    default:
-        goto New_Game;
+            }
+            goto New_Game;
+            break;
+        case 13 : // ENTER
+            break;
+        default:
+            goto New_Game;
         }
 
         switch(player_mode)
@@ -564,41 +601,49 @@ New_Game:
             ArrowVal=1;
 Player_Vs_Comp:
             system("cls");
-            switch (ArrowVal){
-            case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+            switch (ArrowVal)
+            {
+            case 1:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
                 break;
-                case 2:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+            case 2:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
                 break;
-                case 3:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
+            case 3:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
                 break;
             }
             Arrow=getche();
-            switch(Arrow){
-                case 27: Reset_To_Back();goto New_Game; break;
-                 case 72:
-        if(ArrowVal>1)
-        {
-            ArrowVal--;
-            game_difficulty--;
-        }
-        goto Player_Vs_Comp;
-        break;
-    case 80:
-        if(ArrowVal<3)
-        {
-            ArrowVal++;
-            game_difficulty++;
+            switch(Arrow)
+            {
+            case 27:
+                Reset_To_Back();
+                goto New_Game;
+                break;
+            case 72:
+                if(ArrowVal>1)
+                {
+                    ArrowVal--;
+                    game_difficulty--;
+                }
+                goto Player_Vs_Comp;
+                break;
+            case 80:
+                if(ArrowVal<3)
+                {
+                    ArrowVal++;
+                    game_difficulty++;
 
-        }
-        goto Player_Vs_Comp;
-        break;
-    case 13 :
-        break;
-    default:
-        goto Player_Vs_Comp;
+                }
+                goto Player_Vs_Comp;
+                break;
+            case 13 :
+                break;
+            default:
+                goto Player_Vs_Comp;
 
             }
             switch(game_difficulty)
@@ -622,44 +667,52 @@ Player_Vs_Comp:
             }
             break;
         case 2: // BUTTON 2 FOR PLAYER 1 VS PLAYER 2
-ArrowVal=1;
+            ArrowVal=1;
 Player1_Vs_Player2:
             system("cls");
-            switch (ArrowVal){
-            case 1: printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+            switch (ArrowVal)
+            {
+            case 1:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t----->1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
                 break;
-                case 2:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
+            case 2:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t----->2-Expert\n\n\t\t\t\t\t\t\t3-Advanced\n");
                 break;
-                case 3:printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
-            printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
+            case 3:
+                printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tGame Difficulty:\n\n\n");
+                printf("\t\t\t\t\t\t\t1-Beginner\n\n\t\t\t\t\t\t\t2-Expert\n\n\t\t\t\t\t\t----->3-Advanced\n");
                 break;
             }
             Arrow=getche();
-            switch(Arrow){
-                case 27: Reset_To_Back();goto New_Game; break;
-                 case 72:
-        if(ArrowVal>1)
-        {
-            ArrowVal--;
-            game_difficulty--;
-        }
-        goto Player1_Vs_Player2;
-        break;
-    case 80:
-        if(ArrowVal<3)
-        {
-            ArrowVal++;
-            game_difficulty++;
+            switch(Arrow)
+            {
+            case 27:
+                Reset_To_Back();
+                goto New_Game;
+                break;
+            case 72:
+                if(ArrowVal>1)
+                {
+                    ArrowVal--;
+                    game_difficulty--;
+                }
+                goto Player1_Vs_Player2;
+                break;
+            case 80:
+                if(ArrowVal<3)
+                {
+                    ArrowVal++;
+                    game_difficulty++;
 
-        }
-        goto Player1_Vs_Player2;
-        break;
-    case 13 :
-        break;
-    default:
-        goto Player1_Vs_Player2;
+                }
+                goto Player1_Vs_Player2;
+                break;
+            case 13 :
+                break;
+            default:
+                goto Player1_Vs_Player2;
 
             }
             switch(game_difficulty)
@@ -679,7 +732,7 @@ Player1_Vs_Player2:
                 scanf("%d",&C1);
                 break;
             default:
-        goto Player1_Vs_Player2;
+                goto Player1_Vs_Player2;
             }
             break;
         }
@@ -721,34 +774,41 @@ Player1_Vs_Player2:
         ArrowVal=1;
 exit:
         system("cls");
-        switch(ArrowVal){
-           case 1: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
-        printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
-        break;
-        case 2: printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
-        printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
-        break;
+        switch(ArrowVal)
+        {
+        case 1:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+            printf("\t\t\t\t\t\t----->1-YES\n\n\t\t\t\t\t\t\t2-NO\n");
+            break;
+        case 2:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\tAre you sure you want to exit?\n\n\n");
+            printf("\t\t\t\t\t\t\t1-YES\n\n\t\t\t\t\t\t----->2-NO\n");
+            break;
         }
 
         Arrow=getche();
-        switch(Arrow){
-            case 72:
-                if(ArrowVal>1){
-                        ArrowVal--;
-                        ex--;
-                }
-                goto exit;
-                break;
-            case 80:
-                if(ArrowVal<2){
-                        ArrowVal++;
-                        ex++;
-                }
-                goto exit;
-                break;
-            case 13:
-                break;
-            default: goto exit;
+        switch(Arrow)
+        {
+        case 72:
+            if(ArrowVal>1)
+            {
+                ArrowVal--;
+                ex--;
+            }
+            goto exit;
+            break;
+        case 80:
+            if(ArrowVal<2)
+            {
+                ArrowVal++;
+                ex++;
+            }
+            goto exit;
+            break;
+        case 13:
+            break;
+        default:
+            goto exit;
 
         }
         switch(ex)
@@ -991,7 +1051,8 @@ void wchPlayerMove()
 }
 //---------------------------FUNCTION TO RESET ALL THE VARIABLE WE USE IN MAIN MENUE SO IT DOESNT AFFECT ON EACH OTHER WHEN WE BACK ----------------------------------
 
-void Reset_To_Back(){
+void Reset_To_Back()
+{
     Arrow=1;
     ArrowVal=1;
     ex=1;
@@ -999,85 +1060,121 @@ void Reset_To_Back(){
     game_difficulty=1;
     player_mode=1;
 }
+void Reset_After_Game()
+{
+    Arrow=1;
+    ArrowVal=1;
+    ex=1;
+    main_choice=1;
+    game_difficulty=1;
+    player_mode=1;
+    turns=0,wchPlayer=1;
+    wchSign=0;
+    Player1.Played_Moves=0;
+    Player1.Score=0;
+    Player2.Played_Moves=0;
+    Player2.Score=0;
+}
 
-void Change_In_Player_Info(int i,int y){
-    if(wchPlayer==1){
+void Change_In_Player_Info(int i,int y)
+{
+    if(wchPlayer==1)
+    {
         Player1.Player_Info[i][y]=1;
 
     }
-    else if (wchPlayer==2){
+    else if (wchPlayer==2)
+    {
         Player2.Player_Info[i][y]=1;
     }
 }
-void Change_Player_Color(int i,int y){
-    if(Player1.Player_Info[i][y]==1){
+void Change_Player_Color(int i,int y)
+{
+    if(Player1.Player_Info[i][y]==1)
+    {
         Change_Color(4);
     }
-    else if(Player1.Player_Info[i][y]==2){
+    else if(Player1.Player_Info[i][y]==2)
+    {
         Change_Color(79);
     }
-    else if(Player2.Player_Info[i][y]==1){
+    else if(Player2.Player_Info[i][y]==1)
+    {
         Change_Color(11);
     }
-     else if(Player2.Player_Info[i][y]==2){
+    else if(Player2.Player_Info[i][y]==2)
+    {
         Change_Color(63);
-}
+    }
 }
 //----------------------------end the game-----------------------//
-void endgame(int *sum){
+void endgame(int *sum)
+{
     *sum=0;
-for(i=0;i<R;i++){
-        for(y=0;y<C;y++){
-*sum+=B[i][y];
+    for(i=0; i<R; i++)
+    {
+        for(y=0; y<C; y++)
+        {
+            *sum+=B[i][y];
         }
     }
-    }
-    //-------------------------------------------------Winner------------------------------------//
-    void winner(){
-        system("cls");
-        if ( Player1.Score > Player2.Score ){
-            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score (WINNER): %d",Player1.Score);
-            printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
-        }
-        else {
-          printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 2's score (WINNER): %d",Player2.Score);
-            printf("\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
-        }
-        printf("\n\n\n\t\t\t\t\t\tpress Enter to continue ");
-        enter=getche();
-        back:
-        if(enter==13){
-        }
-        else{
-                system("cls");
-            printf("\n\n\n\t\t\t\t\t\tpress Enter to continue");
-            enter=getche();
-            goto back;
-        }
-    }
-
-    //---------------------------------------After the game ends--------------------------//
-void aftergame(){
-    system("cls");
-    int Arrowval=1;
-    after:
-    system("cls");
-    switch(ArrowVal){
- case 1:
-     printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-Play again\n\n \t\t\t\t\t\t\t2-Go back to menu");
-     break;
- case 2:
-    printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t1-Play again\n\n \t\t\t\t\t\t\t----->2-Go back to menu");
-    break;
 }
-Arrow=getche();
+//-------------------------------------------------Winner------------------------------------//
+void winner()
+{
+Winner:
+    system("cls");
+    if ( Player1.Score > Player2.Score )
+    {
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score (WINNER): %d",Player1.Score);
+        printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
+    }
+    else if (Player1.Score < Player2.Score)
+    {
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 2's score (WINNER): %d",Player2.Score);
+        printf("\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
+    }
+    else if (Player1.Score == Player2.Score)
+    {
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
+        printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
+        printf("\n\n\n\t\t\t\t\t\t DRAAAAAAAAAAAAAAAAAAAAAAW ");
+    }
+    printf("\n\n\n\t\t\t\t\t\tpress Enter to continue ");
+    enter=getche();
+    if(enter==13)
+    {
+    }
+    else
+    {
+        goto Winner;
+    }
+}
+
+//---------------------------------------After the game ends--------------------------//
+void aftergame()
+{
+    system("cls");
+after:
+    system("cls");
+    switch(After_Game)
+    {
+    case 1:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-Play again\n\n \t\t\t\t\t\t\t2-Go back to menu");
+        break;
+    case 2:
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t\t1-Play again\n\n \t\t\t\t\t\t----->2-Go back to menu");
+        break;
+    }
+    Arrow=getche();
     switch(Arrow)
-    {case 72: // UP
-        Arrowval=1;
+    {
+    case 72: // UP
+        After_Game=1;
         goto after;
         break;
-            case 80: // DOWN
-        Arrowval=2;
+    case 80: // DOWN
+        After_Game=2;
         goto after;
         break;
     case 13 : // ENTER
@@ -1085,5 +1182,14 @@ Arrow=getche();
     default:
         goto after;
 
+    }
 }
+
+void sound(){
+    if(wchPlayer==1){
+    Beep(200,120);
+    }
+    else if (wchPlayer==2){
+    Beep(300,120);
+    }
 }
