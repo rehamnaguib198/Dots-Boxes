@@ -17,6 +17,8 @@ char PlayerSign;
 int turns=0,wchPlayer=1;
 char A[100][100]; // THE PLAY GROUND.
 int  B[100][100]; // ARRAY OF 1 AND 0 FOR REMAINING DOTS AND SOME CHECKS.
+int sum=0; //sums up all the ones in the B array to know when the game ends.
+int enter; //a key to continue.
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
@@ -49,14 +51,23 @@ void main()
     }
 
     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS AND TO CHEACK IF A PLACE WERE TAKEN OR NOT----------------------------------
-    for(i=0; i<R; i++)
+   for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
         {
-            B[i][y]=1;
+            if (i%2==1 && y%2==1){
+            B[i][y]=0;
+        }
+            else if (i%2==0 && y%2==0)
+            {
+                B[i][y]=0;
+            }
+            else
+            {
+                B[i][y]=1;
+            }
         }
     }
-
      //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
     for(i=0; i<R; i++)
     {
@@ -80,7 +91,8 @@ void main()
     system("cls");
     printf("\n");
     First_Print();
-    while(1)
+    endgame(&sum);
+    while(sum>0)
     {
 start = clock();
         Moving();
@@ -89,6 +101,9 @@ start = clock();
         system("cls");
         Print();
     }
+    winner();
+    aftergame();
+
 }
 
 //---------------------------FUNCTION TO CHANGE TEXT'S COLOR DEPENDS On THE PLAYER NUMBER P----------------------------------
@@ -321,6 +336,7 @@ ExitOrNot:
             else
             {
                 B[CruR][CruC]=0;
+                sum--;
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
@@ -380,6 +396,7 @@ ExitOrNot:
             else
             {
                 B[CruR][CruC]=0;
+                sum--;
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
                 wchPlayerMove();
@@ -1004,5 +1021,69 @@ void Change_Player_Color(int i,int y){
     }
      else if(Player2.Player_Info[i][y]==2){
         Change_Color(63);
+}
+}
+//----------------------------end the game-----------------------//
+void endgame(int *sum){
+    *sum=0;
+for(i=0;i<R;i++){
+        for(y=0;y<C;y++){
+*sum+=B[i][y];
+        }
+    }
+    }
+    //-------------------------------------------------Winner------------------------------------//
+    void winner(){
+        system("cls");
+        if ( Player1.Score > Player2.Score ){
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score (WINNER): %d",Player1.Score);
+            printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
+        }
+        else {
+          printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 2's score (WINNER): %d",Player2.Score);
+            printf("\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
+        }
+        printf("\n\n\n\t\t\t\t\t\tpress Enter to continue ");
+        enter=getche();
+        back:
+        if(enter==13){
+        }
+        else{
+                system("cls");
+            printf("\n\n\n\t\t\t\t\t\tpress Enter to continue");
+            enter=getche();
+            goto back;
+        }
+    }
+
+    //---------------------------------------After the game ends--------------------------//
+void aftergame(){
+    system("cls");
+    int Arrowval=1;
+    after:
+    system("cls");
+    switch(ArrowVal){
+ case 1:
+     printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t----->1-Play again\n\n \t\t\t\t\t\t\t2-Go back to menu");
+     break;
+ case 2:
+    printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t1-Play again\n\n \t\t\t\t\t\t\t----->2-Go back to menu");
+    break;
+}
+Arrow=getche();
+    switch(Arrow)
+    {case 72: // UP
+        Arrowval=1;
+        goto after;
+        break;
+            case 80: // DOWN
+        Arrowval=2;
+        goto after;
+        break;
+    case 13 : // ENTER
+        break;
+    default:
+        goto after;
+
 }
 }
