@@ -42,12 +42,23 @@
 
 1511695441 d:\kolya\1st year\programming\final project\project-4\project\players.h
 
-1511699148 source:d:\kolya\1st year\programming\final project\project-5\project\main.c
+1511707030 source:c:\users\arabtech\desktop\project-5\project\main.c
 	<stdio.h>
 	<Windows.h>
 	<conio.h>
 	<stdlib.h>
 	"players.h"
+	<time.h>
 
-1511695441 d:\kolya\1st year\programming\final project\project-5\project\players.h
+1511695441 c:\users\arabtech\desktop\project-5\project\players.h
+
+1511709659 source:c:\users\arabtech\desktop\final-projectsss\project-6\project\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	"players.h"
+	<time.h>
+
+1511695441 c:\users\arabtech\desktop\final-projectsss\project-6\project\players.h
 

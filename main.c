@@ -3,7 +3,10 @@
 #include <conio.h>
 #include <stdlib.h>
 #include "players.h"
-
+#include <time.h>
+ time_t start,end;
+ clock_t start, end;
+  double dif=0;
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
@@ -79,8 +82,10 @@ void main()
     First_Print();
     while(1)
     {
-
+start = clock();
         Moving();
+    end = clock();
+        dif+= (end-start)/(double)CLOCKS_PER_SEC;
         system("cls");
         Print();
     }
@@ -106,7 +111,9 @@ void Reset_Color()
 void First_Print()
 
 {
-    printf("\n\n\n\n\n\n\t\t\t\t\t\t\t"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
+    printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
+    printf("\t\t\t\t\t\t    Player 1 's Turn...");
+    printf("\n\n\n\t\t\t\t\t\t\t");
     for(i=0; i<C+4; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     {
         printf("-");
@@ -122,11 +129,17 @@ void First_Print()
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1.Score);
+           Change_Color(116);
+            printf("\n Player 1 Score: %i ",Player1.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
         }
-        else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        else if (i==R/2+1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2.Score);
+            Change_Color(121);
+            printf("\n Player 2 Score: %i ",Player2.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
         }
         else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
         {
@@ -142,7 +155,18 @@ void First_Print()
 
 void Print()
 {
-    printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
+     printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
+     if(wchPlayer==1){
+            Change_Color(4);
+    printf("\t\t\t\t\t\t    Player 1 's Turn...");
+    Reset_Color();
+     }
+     else if (wchPlayer==2){
+            Change_Color(11);
+    printf("\t\t\t\t\t\t      Player 2 's Turn...");
+    Reset_Color();
+     }
+    printf("\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
     for(i=0; i<C+4; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     {
         printf("-");
@@ -177,11 +201,17 @@ void Print()
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 1 Score: %i\t\t\t\t\t",Player1.Score);
+            Change_Color(116);
+            printf("\n Player 1 Score: %i ",Player1.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
         }
-        else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        else if (i==R/2+1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
-            printf("\n Player 2 Score: %i\t\t\t\t\t",Player2.Score);
+            Change_Color(121);
+            printf("\n Player 2 Score: %i ",Player2.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
         }
         else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
         {
@@ -192,6 +222,11 @@ void Print()
     {
         printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     }
+    int minute=dif/60;
+    if(dif>=60){
+        dif-=60;
+    }
+    printf("\n\t\t\tTIME IS :%i:%.2lf",minute ,dif);
 
 }
 
