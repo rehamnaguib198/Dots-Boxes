@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "players.h"
 #include <time.h>
+
 time_t start,end;
 clock_t start, end;
 double dif=0;
@@ -21,6 +22,7 @@ char A[100][100]; // THE PLAY GROUND.
 int  B[100][100]; // ARRAY OF 1 AND 0 FOR REMAINING DOTS AND SOME CHECKS.
 int sum=0; //sums up all the ones in the B array to know when the game ends.
 int enter; //a key to continue.
+int minute=0;
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
@@ -28,6 +30,9 @@ struct Players Player2;
 
 void main()
 {
+SetConsoleTitle("Dots And Boxes Game"); // TO MAKE TITLE FOR THE GAME .
+
+
     //---------------------------TAKING THE SIZE OF PLAY GROUND----------------------------------
 VoidMenu:
     start_menu();
@@ -40,6 +45,7 @@ Play_Again:
     system("cls");
     printf("\n");
     First_Print();
+    // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     endgame(&sum);
     while(sum>0)
     {
@@ -254,12 +260,15 @@ void Print()
     {
         printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     }
-    int minute=dif/60;
+
     if(dif>=60)
     {
+        minute++;
         dif-=60;
+       // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     }
     printf("\n\t\t\tTIME IS :%i:%.2lf",minute,dif);
+    printf("\n\t\t\t Player 1 Played %i Turns \n\t\t\t Player 2 Played %i Turns ",Player1.Played_Moves,Player2.Played_Moves);
 
 }
 
@@ -317,6 +326,8 @@ ExitOrNot:
             {
                 ArrowVal--;
                 ex--;
+                Beep(200,70);
+
             }
             goto ExitOrNot;
             break;
@@ -325,10 +336,12 @@ ExitOrNot:
             {
                 ArrowVal++;
                 ex++;
+                Beep(300,70);
             }
             goto ExitOrNot;
             break;
         case 13:
+            Beep(130,120);
             break;
         default:
             goto ExitOrNot;
@@ -364,8 +377,13 @@ ExitOrNot:
                 sum--;
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
+                if (wchPlayer==1){
+                    Player1.Played_Moves++;
+                }
+                else if (wchPlayer==2){
+                    Player2.Played_Moves++;
+                }
                 wchPlayerMove();
-                sound();
 
             }
 
@@ -426,8 +444,13 @@ ExitOrNot:
                 sum--;
                 Check_Box();
                 Change_In_Player_Info(CruR,CruC);
+                if (wchPlayer==1){
+                    Player1.Played_Moves++;
+                }
+                else if (wchPlayer==2){
+                    Player2.Played_Moves++;
+                }
                 wchPlayerMove();
-                sound();
 
             }
         }
@@ -528,20 +551,24 @@ menu:
     case 72: // UP
         if(ArrowVal>1)
         {
+            Beep(200,70);
             ArrowVal--;
             main_choice--;
+
         }
         goto menu;
         break;
     case 80: // DOWN
         if(ArrowVal<5)
         {
+            Beep(300,70);
             ArrowVal++;
             main_choice++;
         }
         goto menu;
         break;
     case 13 : // ENTER
+        Beep(130,120);
         break;
     default:
         goto menu;
@@ -577,6 +604,7 @@ New_Game:
             {
                 ArrowVal--;
                 player_mode--;
+                Beep(200,70);
             }
             goto New_Game;
             break;
@@ -585,11 +613,13 @@ New_Game:
             {
                 ArrowVal++;
                 player_mode++;
+                Beep(300,70);
 
             }
             goto New_Game;
             break;
         case 13 : // ENTER
+                Beep(130,120);
             break;
         default:
             goto New_Game;
@@ -628,6 +658,7 @@ Player_Vs_Comp:
                 {
                     ArrowVal--;
                     game_difficulty--;
+                    Beep(200,70);
                 }
                 goto Player_Vs_Comp;
                 break;
@@ -636,11 +667,14 @@ Player_Vs_Comp:
                 {
                     ArrowVal++;
                     game_difficulty++;
+                    Beep(300,70);
 
                 }
                 goto Player_Vs_Comp;
                 break;
             case 13 :
+                Beep(130,120);
+
                 break;
             default:
                 goto Player_Vs_Comp;
@@ -697,6 +731,7 @@ Player1_Vs_Player2:
                 {
                     ArrowVal--;
                     game_difficulty--;
+                    Beep(200,70);
                 }
                 goto Player1_Vs_Player2;
                 break;
@@ -705,11 +740,14 @@ Player1_Vs_Player2:
                 {
                     ArrowVal++;
                     game_difficulty++;
+                    Beep(300,70);
 
                 }
                 goto Player1_Vs_Player2;
                 break;
             case 13 :
+                Beep(130,120);
+
                 break;
             default:
                 goto Player1_Vs_Player2;
@@ -794,6 +832,7 @@ exit:
             {
                 ArrowVal--;
                 ex--;
+                Beep(200,70);
             }
             goto exit;
             break;
@@ -802,10 +841,13 @@ exit:
             {
                 ArrowVal++;
                 ex++;
+                Beep(300,70);
             }
             goto exit;
             break;
         case 13:
+                Beep(130,120);
+
             break;
         default:
             goto exit;
@@ -849,11 +891,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR+1][CruC]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR+1][CruC]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -868,11 +912,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -890,12 +936,14 @@ void Check_Box()
                     Player1.Score+=2;
                     Player1.Player_Info[CruR+1][CruC]=2;
                     Player1.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player2.Score+=2;
                     Player2.Player_Info[CruR+1][CruC]=2;
                     Player2.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -907,11 +955,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR-1][CruC]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -922,11 +972,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR+1][CruC]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR+1][CruC]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
@@ -946,11 +998,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR][CruC+1]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR][CruC+1]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -965,11 +1019,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -986,12 +1042,14 @@ void Check_Box()
                     Player1.Score+=2;
                     Player1.Player_Info[CruR][CruC+1]=2;
                     Player1.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player2.Score+=2;
                     Player2.Player_Info[CruR][CruC+1]=2;
                     Player2.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -1004,11 +1062,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR][CruC-1]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -1019,11 +1079,13 @@ void Check_Box()
                 {
                     Player1.Score+=1;
                     Player1.Player_Info[CruR][CruC+1]=2;
+                    sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
                     Player2.Player_Info[CruR][CruC+1]=2;
+                    sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
@@ -1171,13 +1233,16 @@ after:
     {
     case 72: // UP
         After_Game=1;
+        Beep(200,70);
         goto after;
         break;
     case 80: // DOWN
         After_Game=2;
+        Beep(300,70);
         goto after;
         break;
     case 13 : // ENTER
+        Beep(130,120);
         break;
     default:
         goto after;
