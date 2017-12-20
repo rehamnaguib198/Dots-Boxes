@@ -8,6 +8,7 @@
 time_t start,end;
 clock_t start, end;
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
+char Size[100];
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
 int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
@@ -24,6 +25,7 @@ int  undoC[100],undoR[100],undoCounter=-1,undoTurns[100],Valid_Redo=0,Last_Redo=
 int sum=0; //sums up all the ones in the B array to know when the game ends.
 int enter; //a key to continue.
 int minute=0; double dif=0;
+int ValidRow,ValidColumn;
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
@@ -45,7 +47,7 @@ Play_Again:
     system("cls");
     printf("\n");
     First_Print();
-    PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
+    //PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     endgame(&sum);
     Calculate_Remainning_Dots(CruR,CruC);
     while(sum>0)
@@ -174,79 +176,11 @@ void First_Print()
     printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
     printf("\t\t\t\t\t\t    Player 1 's Turn...");
     printf("\n\n\n\t\t\t\t\t\t\t");
-    for(i=0; i<C+4; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
+    for(i=0; i<2*C+3; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     {
         printf("-");
     }
     printf("\n\t\t\t\t\t\t\t"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
-    for(i=0; i<R; i++) // TO PRINT THE DOTS..
-    {
-        printf("| "); // THE RIGHT SIDE FRAME
-        for(y=0; y<C; y++)
-        {
-            printf("%c",A[i][y]);
- /*           if (i%2==0&&y%2==1){
-                if(B[i][y]==0){
-                    printf("-");
-
-                }
-                else{
-                    printf(" ");
-                }
-            }
-            else{
-                printf(" ");
-            } */
-
-        }
-        printf(" |"); // THE LEFT SIDE FRAME
-        if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
-        {
-            Change_Color(116);
-            printf("\n Player 1 Score: %i ",Player1.Score);
-            Reset_Color();
-            printf("\t\t\t\t\t");
-        }
-        else if (i==R/2+1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
-        {
-            Change_Color(121);
-            printf("\n Player 2 Score: %i ",Player2.Score);
-            Reset_Color();
-            printf("\t\t\t\t\t");
-        }
-        else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
-        {
-            printf("\n\t\t\t\t\t\t\t");
-        }
-    }
-    for(i=0; i<C+4; i++)
-    {
-        printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
-    }
-}
-//---------------------------FUNCTION TO PRINT THE PLAY GROUND DURING THE GAME----------------------------------
-
-void Print()
-{
-    printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
-    if(wchPlayer==1)
-    {
-        Change_Color(4);
-        printf("\t\t\t\t\t\t    Player 1 's Turn...");
-        Reset_Color();
-    }
-    else if (wchPlayer==2)
-    {
-        Change_Color(11);
-        printf("\t\t\t\t\t\t      Player 2 's Turn...");
-        Reset_Color();
-    }
-    printf("\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
-    for(i=0; i<C+4; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
-    {
-        printf("-");
-    }
-    printf("\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
     for(i=0; i<R; i++) // tO PRINT THE DOTS.
     {
         printf("| "); // THE RIGHT SIDE FRAME
@@ -272,8 +206,39 @@ void Print()
                 printf("%c",A[i][y]);
                 Reset_Color();
             }
+
+            if (i%2==0){
+                    if(A[i][y]==' '){
+                        printf(" ");
+                    }
+                    else if (A[i][y]=='-') {
+                        Change_Player_Color(i,y);
+                        printf("-");
+                        Reset_Color();
+                    }
+                    else{
+                            if(A[i][y+1]==' '){
+                        printf(" ");
+                            }
+                            else if (A[i][y+1]=='-'){
+                                Change_Player_Color(i,y+1);
+                                printf("-");
+                                Reset_Color();
+                            }
+                    }
+
+            }
+            else if(i%2==1){
+                printf(" ");
+            }
+
         }
-        printf(" |"); // THE LEFT SIDE FRAME
+        if(i%2==0){
+        printf(" |");// THE LEFT SIDE FRAME
+        }
+        else if(i%2==1){
+        printf("|");// THE LEFT SIDE FRAME
+        }
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
             Change_Color(116);
@@ -305,7 +270,124 @@ void Print()
             printf("\n\t\t\t\t\t\t\t");
         }
     }
-    for(i=0; i<C+4; i++)
+    for(i=0; i<2*C+3; i++)
+    {
+        printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
+    }
+}
+//---------------------------FUNCTION TO PRINT THE PLAY GROUND DURING THE GAME----------------------------------
+
+void Print()
+{
+    printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
+    if(wchPlayer==1)
+    {
+        Change_Color(4);
+        printf("\t\t\t\t\t\t    Player 1 's Turn...");
+        Reset_Color();
+    }
+    else if (wchPlayer==2)
+    {
+        Change_Color(11);
+        printf("\t\t\t\t\t\t      Player 2 's Turn...");
+        Reset_Color();
+    }
+    printf("\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
+    for(i=0; i<2*C+3; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
+    {
+        printf("-");
+    }
+    printf("\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
+    for(i=0; i<R; i++) // tO PRINT THE DOTS.
+    {
+        printf("| "); // THE RIGHT SIDE FRAME
+        for(y=0; y<C; y++)
+        {
+            if(i==CruR&&y==CruC) // IF THE CRUSUR IS HERE ... CHANGE THE COLOR AND PRINT IT .
+            {
+                if(wchPlayer==1)
+                {
+                    Change_Color(15);
+                }
+                else if(wchPlayer==2)
+                {
+                    Change_Color(15);
+                }
+                printf("%c",A[i][y]);
+                Reset_Color();
+            }
+
+            else // ELSE PRINT THE PLAYGROUND WITH THE ORDINARY COLOR.
+            {
+                Change_Player_Color(i,y);
+                printf("%c",A[i][y]);
+                Reset_Color();
+            }
+
+            if (i%2==0){
+                    if(A[i][y]==' '){
+                        printf(" ");
+                    }
+                    else if (A[i][y]=='-') {
+                        Change_Player_Color(i,y);
+                        printf("-");
+                        Reset_Color();
+                    }
+                    else{
+                            if(A[i][y+1]==' '){
+                        printf(" ");
+                            }
+                            else if (A[i][y+1]=='-'){
+                                Change_Player_Color(i,y+1);
+                                printf("-");
+                                Reset_Color();
+                            }
+                    }
+
+            }
+            else if(i%2==1){
+                printf(" ");
+            }
+
+        }
+        if(i%2==0){
+        printf(" |");// THE LEFT SIDE FRAME
+        }
+        else if(i%2==1){
+        printf("|");// THE LEFT SIDE FRAME
+        }
+        if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        {
+            Change_Color(116);
+            printf("\n Player 1 Score: %i ",Player1.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        {
+            Change_Color(121);
+            printf("\n Player 2 Score: %i ",Player2.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else if (i==R/2+1){
+            Change_Color(116);
+            printf("\n Player 1 Turns: %i ",Player1.Played_Moves);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else if (i==R/2+2){
+            Change_Color(121);
+            printf("\n Player 2 Turns: %i ",Player2.Played_Moves);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
+        {
+            printf("\n\t\t\t\t\t\t\t");
+        }
+    }
+    for(i=0; i<2*C+3; i++)
     {
         printf("-"); // THE DOWN FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     }
@@ -431,7 +513,7 @@ ExitOrNot:
             Valid_Redo=0;
                 B[CruR][CruC]=0;
                 sum--;
-                Check_Box();
+                Check_Box(CruR,CruC);
                 Change_In_Player_Info(CruR,CruC);
                 if (wchPlayer==1){
                     Player1.Played_Moves++;
@@ -506,7 +588,7 @@ ExitOrNot:
                 Valid_Redo=0;
                 B[CruR][CruC]=0;
                 sum--;
-                Check_Box();
+                Check_Box(CruR,CruC);
                 Change_In_Player_Info(CruR,CruC);
                 if (wchPlayer==1){
                     Player1.Played_Moves++;
@@ -762,11 +844,39 @@ Player_Vs_Comp:
                 break;
             case 3: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
                 system("cls");
-                printf("Enter number of rows.\n");
-                scanf("%d",&R1);
+                printf("Enter Number Of Rows. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidRow=atoi(Size);
+                if(ValidRow>=2&&ValidRow<=100){
+                    R1=ValidRow;
+                    goto jumpRow;
+                }
+                while(ValidRow < 2 || ValidRow>100){
                 system("cls");
-                printf("Enter number of columns.\n");
-                scanf("%d",&C1);
+                printf("WRONG INPUT ,, PLEASE ENTER NUMBER BETWEEN 2 AND 100\n\n");
+                printf("Enter Number Of Rows. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidRow=atoi(Size);
+                }
+                R1=ValidRow;
+                jumpRow:
+                system("cls");
+                printf("Enter Number Of Column. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidColumn=atoi(Size);
+                if(ValidColumn>=2&&ValidColumn<=100){
+                        C1=ValidColumn;
+                    goto jumpColumn;
+                }
+                while(ValidColumn < 2 || ValidColumn>100){
+                system("cls");
+                printf("WRONG INPUT ,, PLEASE ENTER NUMBER BETWEEN 2 AND 100\n\n");
+                printf("Enter Number Of Column. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidColumn=atoi(Size);
+                }
+                C1=ValidColumn;
+                jumpColumn:
                 break;
             default:
                 goto Player_Vs_Comp;
@@ -835,11 +945,39 @@ Player1_Vs_Player2:
                 break;
             case 3: // BUTTON 3 FOR ADVANCED TO CHOOSE NUMBER OF DOTS HE NEEDS
                 system("cls");
-                printf("Enter number of rows.\n");
-                scanf("%d",&R1);
+                printf("Enter Number Of Rows. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidRow=atoi(Size);
+                if(ValidRow>=2&&ValidRow<=100){
+                    R1=ValidRow;
+                    goto jumpRow1;
+                }
+                while(ValidRow < 2 || ValidRow>100){
                 system("cls");
-                printf("Enter number of columns.\n");
-                scanf("%d",&C1);
+                printf("WRONG INPUT ,, PLEASE ENTER NUMBER BETWEEN 2 AND 100\n\n");
+                printf("Enter Number Of Rows. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidRow=atoi(Size);
+                }
+                R1=ValidRow;
+                jumpRow1:
+                system("cls");
+                printf("Enter Number Of Column. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidColumn=atoi(Size);
+                if(ValidColumn>=2&&ValidColumn<=100){
+                        C1=ValidColumn;
+                    goto jumpColumn1;
+                }
+                while(ValidColumn < 2 || ValidColumn>100){
+                system("cls");
+                printf("WRONG INPUT ,, PLEASE ENTER NUMBER BETWEEN 2 AND 100\n\n");
+                printf("Enter Number Of Column. \n  WARNING .. If You Entered Number In The Beginning Of A String We Will Make The Number OF Rows Equal To This Number\n\n");
+                gets(Size);
+                ValidColumn=atoi(Size);
+                }
+                C1=ValidColumn;
+                jumpColumn1:
                 break;
             default:
                 goto Player1_Vs_Player2;
@@ -950,46 +1088,46 @@ exit:
 
 //---------------------------FUNCTION THAT CHECK WHEN THE PLAYER MAKE HIS MOVE IF ANY BOX WAS COMPLETED ----------------------------------
 
-void Check_Box()
+void Check_Box(int r,int c)
 {
     if(wchSign==5)  //IF THE SIGN WAS - .
     {
-        if(CruR==0)  // LIMITS FOR THE BOARDERS HE CAN CALCULATE BOXES IN WJEN THE CRUSUR IN 1ST ROW
+        if(r==0)  // LIMITS FOR THE BOARDERS HE CAN CALCULATE BOXES IN WJEN THE CRUSUR IN 1ST ROW
         {
-            if(B[CruR+2][CruC]==0 && B[CruR+1][CruC-1]==0 && B[CruR+1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            if(B[r+2][c]==0 && B[r+1][c-1]==0 && B[r+1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR+1][CruC]=PlayerSign;
+                A[r+1][c]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR+1][CruC]=2;
+                    Player1.Player_Info[r+1][c]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR+1][CruC]=2;
+                    Player2.Player_Info[r+1][c]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
             }
         }
-        else if(CruR==R-1)  // LIMITS FOR THE BOARDERS HE CAN CALCULATE BOXES IN WJEN THE CRUSUR IN LAST ROW
+        else if(r==R-1)  // LIMITS FOR THE BOARDERS HE CAN CALCULATE BOXES IN WJEN THE CRUSUR IN LAST ROW
         {
-            if(B[CruR-2][CruC]==0 && B[CruR-1][CruC-1]==0 && B[CruR-1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            if(B[r-2][c]==0 && B[r-1][c-1]==0 && B[r-1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR-1][CruC]=PlayerSign;
+                A[r-1][c]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR-1][CruC]=2;
+                    Player1.Player_Info[r-1][c]=2;
                     sound();
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR-1][CruC]=2;
+                    Player2.Player_Info[r-1][c]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
@@ -999,57 +1137,57 @@ void Check_Box()
         else
         {
             // IF THIS PLACES WERE ZEROS SO THESE TWO BOXES ARE COMPLETED
-            if(B[CruR+2][CruC]==0 && B[CruR+1][CruC-1]==0 && B[CruR+1][CruC+1]==0 && B[CruR-2][CruC]==0 && B[CruR-1][CruC-1]==0 && B[CruR-1][CruC+1]==0)
+            if(B[r+2][c]==0 && B[r+1][c-1]==0 && B[r+1][c+1]==0 && B[r-2][c]==0 && B[r-1][c-1]==0 && B[r-1][c+1]==0)
             {
-                A[CruR+1][CruC]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
-                A[CruR-1][CruC]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
+                A[r+1][c]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
+                A[r-1][c]=PlayerSign; // PRINT A OR B DEPENDS ON WHICH PLAYER'S MOVE
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player1.Score+=2;
-                    Player1.Player_Info[CruR+1][CruC]=2;
-                    Player1.Player_Info[CruR-1][CruC]=2;
+                    Player1.Player_Info[r+1][c]=2;
+                    Player1.Player_Info[r-1][c]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player2.Score+=2;
-                    Player2.Player_Info[CruR+1][CruC]=2;
-                    Player2.Player_Info[CruR-1][CruC]=2;
+                    Player2.Player_Info[r+1][c]=2;
+                    Player2.Player_Info[r-1][c]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
 
             }
-            else if(B[CruR-2][CruC]==0 && B[CruR-1][CruC-1]==0 && B[CruR-1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            else if(B[r-2][c]==0 && B[r-1][c-1]==0 && B[r-1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR-1][CruC]=PlayerSign;
+                A[r-1][c]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR-1][CruC]=2;
+                    Player1.Player_Info[r-1][c]=2;
                     sound();
                 }
                 else if (PlayerSign=='B') // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR-1][CruC]=2;
+                    Player2.Player_Info[r-1][c]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
-            else if(B[CruR+2][CruC]==0 && B[CruR+1][CruC-1]==0 && B[CruR+1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            else if(B[r+2][c]==0 && B[r+1][c-1]==0 && B[r+1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR+1][CruC]=PlayerSign;
+                A[r+1][c]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR+1][CruC]=2;
+                    Player1.Player_Info[r+1][c]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR+1][CruC]=2;
+                    Player2.Player_Info[r+1][c]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
@@ -1061,42 +1199,42 @@ void Check_Box()
 
     else if(wchSign==4)  // IF THE SIGN WAS | .
     {
-        if(CruC==0)
+        if(c==0)
         {
-            if(B[CruR][CruC+2]==0 && B[CruR-1][CruC+1]==0 && B[CruR+1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            if(B[r][c+2]==0 && B[r-1][c+1]==0 && B[r+1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR][CruC+1]=PlayerSign;
+                A[r][c+1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR][CruC+1]=2;
+                    Player1.Player_Info[r][c+1]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR][CruC+1]=2;
+                    Player2.Player_Info[r][c+1]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
         }
-        else if(CruC==C-1)
+        else if(c==C-1)
         {
-            if(B[CruR][CruC-2]==0 && B[CruR-1][CruC-1]==0 && B[CruR+1][CruC-1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            if(B[r][c-2]==0 && B[r-1][c-1]==0 && B[r+1][c-1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR][CruC-1]=PlayerSign;
+                A[r][c-1]=PlayerSign;
 
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR][CruC-1]=2;
+                    Player1.Player_Info[r][c-1]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR][CruC-1]=2;
+                    Player2.Player_Info[r][c-1]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
@@ -1105,58 +1243,58 @@ void Check_Box()
         else
         {
             // IF THIS PLACES WERE ZEROS SO THESE TWO BOXES ARE COMPLETED
-            if(B[CruR][CruC+2]==0 && B[CruR-1][CruC+1]==0 && B[CruR+1][CruC+1]==0 && B[CruR][CruC-2]==0 && B[CruR-1][CruC-1]==0 && B[CruR+1][CruC-1]==0)
+            if(B[r][c+2]==0 && B[r-1][c+1]==0 && B[r+1][c+1]==0 && B[r][c-2]==0 && B[r-1][c-1]==0 && B[r+1][c-1]==0)
             {
-                A[CruR][CruC+1]=PlayerSign;
-                A[CruR][CruC-1]=PlayerSign;
+                A[r][c+1]=PlayerSign;
+                A[r][c-1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player1.Score+=2;
-                    Player1.Player_Info[CruR][CruC+1]=2;
-                    Player1.Player_Info[CruR][CruC-1]=2;
+                    Player1.Player_Info[r][c+1]=2;
+                    Player1.Player_Info[r][c-1]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOXES .. INCRESE HIS SCORE
                 {
                     Player2.Score+=2;
-                    Player2.Player_Info[CruR][CruC+1]=2;
-                    Player2.Player_Info[CruR][CruC-1]=2;
+                    Player2.Player_Info[r][c+1]=2;
+                    Player2.Player_Info[r][c-1]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
-            else if(B[CruR][CruC-2]==0 && B[CruR-1][CruC-1]==0 && B[CruR+1][CruC-1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            else if(B[r][c-2]==0 && B[r-1][c-1]==0 && B[r+1][c-1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR][CruC-1]=PlayerSign;
+                A[r][c-1]=PlayerSign;
 
 
                 if(PlayerSign=='A')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR][CruC-1]=2;
+                    Player1.Player_Info[r][c-1]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR][CruC-1]=2;
+                    Player2.Player_Info[r][c-1]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
             }
-            else if(B[CruR][CruC+2]==0 && B[CruR-1][CruC+1]==0 && B[CruR+1][CruC+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
+            else if(B[r][c+2]==0 && B[r-1][c+1]==0 && B[r+1][c+1]==0)  // IF THIS PLACES WERE ZEROS SO THIS BOX IS COMPLETED
             {
-                A[CruR][CruC+1]=PlayerSign;
+                A[r][c+1]=PlayerSign;
                 if(PlayerSign=='A')  // IF PLAYER 2 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player1.Score+=1;
-                    Player1.Player_Info[CruR][CruC+1]=2;
+                    Player1.Player_Info[r][c+1]=2;
                     sound();
                 }
                 else if (PlayerSign=='B')  // IF PLAYER 1 CLOSED THE BOX .. INCRESE HIS SCORE
                 {
                     Player2.Score+=1;
-                    Player2.Player_Info[CruR][CruC+1]=2;
+                    Player2.Player_Info[r][c+1]=2;
                     sound();
                 }
                 turns--; //TO MAKE THE SAME PLAYER PLAY AGAIN
@@ -1381,6 +1519,7 @@ void undo(){
     Player1.Player_Info[r][c]=0;
     Player2.Player_Info[r][c]=0;
     if(r%2==0){
+    int a=0;
         if(A[r+1][c]==' '&&r<R-1){
         }
         else{
@@ -1389,11 +1528,13 @@ void undo(){
                 Player1.Score--;
                 Player1.Player_Info[r+1][c]=0;
                 turns++;
+                a=1;
             }
             else if(Player2.Player_Info[r+1][c]==2){
                 Player2.Score--;
                 Player2.Player_Info[r+1][c]=0;
                 turns++;
+                a=1;
             }
         }
         if(A[r-1][c]==' '&&r>0){
@@ -1403,16 +1544,21 @@ void undo(){
             if(Player1.Player_Info[r-1][c]==2){
                 Player1.Score--;
                 Player1.Player_Info[r-1][c]=0;
+                if(a==0){
                 turns++;
+                }
             }
             else if(Player2.Player_Info[r-1][c]==2){
                 Player2.Score--;
                 Player2.Player_Info[r-1][c]=0;
+                if(a==0){
                 turns++;
+                }
             }
         }
     }
-    else if(r%2==0){
+    else if(r%2==1){
+    int b=0;
         if(A[r][c+1]==' '&&c<C-1){
         }
         else{
@@ -1421,11 +1567,13 @@ void undo(){
                 Player1.Score--;
                 Player1.Player_Info[r][c+1]=0;
                 turns++;
+                b=1;
             }
             else if(Player2.Player_Info[r][c+1]==2){
                 Player2.Score--;
                 Player2.Player_Info[r][c+1]=0;
                 turns++;
+                b=1;
             }
         }
         if(A[r][c-1]==' '&&r>0){
@@ -1435,12 +1583,15 @@ void undo(){
             if(Player1.Player_Info[r][c-1]==2){
                 Player1.Score--;
                 Player1.Player_Info[r][c-1]=0;
-                turns++;
-            }
+                if(b==0){
+                    turns++;
+                }            }
             else if(Player2.Player_Info[r][c-1]==2){
                 Player2.Score--;
                 Player2.Player_Info[r][c-1]=0;
-                turns++;
+                if(b==0){
+                    turns++;
+                }
             }
         }
     }
@@ -1473,12 +1624,13 @@ if(Valid_Redo==1){
         }
     int r=undoR[undoCounter];
     int c=undoC[undoCounter];
-    CruR=r; CruC=c;
     if (r%2==0&&c%2==1){
         A[r][c]='-';
+        wchSign=5;
     }
     else if (r%2==1&&c%2==0){
         A[r][c]='|';
+        wchSign=4;
     }
     B[r][c]=0;
     if(wchPlayer==1){
@@ -1489,7 +1641,7 @@ if(Valid_Redo==1){
 
     }
 
-    Check_Box();
+    Check_Box(r,c);
 
     if(undoTurns[undoCounter]==1){
         Player1.Played_Moves++;
@@ -1523,8 +1675,9 @@ void Calculate_Remainning_Dots(int r,int c){ // IF HE WANT THE REMAINING LINES W
         }
     }
     NumRemainningDots=0;
-    for(int i=0;i<R;i++){
-        for(int y=0;y<C;y++){
+    int i,y;
+    for(i=0;i<R;i++){
+        for(y=0;y<C;y++){
             NumRemainningDots+=RemainingDots[i][y];
         }
     }
