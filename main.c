@@ -7,7 +7,6 @@
 
 time_t start,end;
 clock_t start, end;
-double dif=0;
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
@@ -20,13 +19,14 @@ int turns=0,wchPlayer=1;
 int After_Game=1;
 char A[100][100]; // THE PLAY GROUND.
 int  B[100][100]; // ARRAY OF 1 AND 0 FOR REMAINING DOTS AND SOME CHECKS.
+int  RemainingDots[100][100],NumRemainningDots=0; // ARRAY TO CALCULATE THE REMAINING DOTS.
+int  undoC[100],undoR[100],undoCounter=-1,undoTurns[100],Valid_Redo=0,Last_Redo=0;// ARRAYS TO SAVE EVETY MOVE WE PLAY
 int sum=0; //sums up all the ones in the B array to know when the game ends.
 int enter; //a key to continue.
-int minute=0;
+int minute=0; double dif=0;
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
-
 
 void main()
 {
@@ -45,8 +45,9 @@ Play_Again:
     system("cls");
     printf("\n");
     First_Print();
-    // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
+    PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     endgame(&sum);
+    Calculate_Remainning_Dots(CruR,CruC);
     while(sum>0)
     {
         start = clock();
@@ -90,7 +91,7 @@ Arranging_Play_Ground(int R,int C)
         }
     }
 
-    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS AND TO CHEACK IF A PLACE WERE TAKEN OR NOT----------------------------------
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHEACK IF A PLACE WERE TAKEN OR NOT----------------------------------
     for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
@@ -109,6 +110,26 @@ Arranging_Play_Ground(int R,int C)
             }
         }
     }
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS----------------------------------
+    for(i=0; i<R; i++)
+    {
+        for(y=0; y<C; y++)
+        {
+            if (i%2==1 && y%2==1)
+            {
+                RemainingDots[i][y]=0;
+            }
+            else if (i%2==0 && y%2==0)
+            {
+                RemainingDots[i][y]=1;
+            }
+            else
+            {
+                RemainingDots[i][y]=0;
+            }
+        }
+    }
+
     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
     for(i=0; i<R; i++)
     {
@@ -126,7 +147,10 @@ Arranging_Play_Ground(int R,int C)
             Player2.Player_Info[i][y]=0;
         }
     }
+
 }
+
+
 //---------------------------FUNCTION TO CHANGE TEXT'S COLOR DEPENDS On THE PLAYER NUMBER P----------------------------------
 
 void Change_Color(int P)
@@ -161,6 +185,19 @@ void First_Print()
         for(y=0; y<C; y++)
         {
             printf("%c",A[i][y]);
+ /*           if (i%2==0&&y%2==1){
+                if(B[i][y]==0){
+                    printf("-");
+
+                }
+                else{
+                    printf(" ");
+                }
+            }
+            else{
+                printf(" ");
+            } */
+
         }
         printf(" |"); // THE LEFT SIDE FRAME
         if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
@@ -244,10 +281,22 @@ void Print()
             Reset_Color();
             printf("\t\t\t\t\t");
         }
-        else if (i==R/2+1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+        else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
             Change_Color(121);
             printf("\n Player 2 Score: %i ",Player2.Score);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else if (i==R/2+1){
+            Change_Color(116);
+            printf("\n Player 1 Turns: %i ",Player1.Played_Moves);
+            Reset_Color();
+            printf("\t\t\t\t\t");
+        }
+        else if (i==R/2+2){
+            Change_Color(121);
+            printf("\n Player 2 Turns: %i ",Player2.Played_Moves);
             Reset_Color();
             printf("\t\t\t\t\t");
         }
@@ -268,7 +317,13 @@ void Print()
        // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     }
     printf("\n\t\t\tTIME IS :%i:%.2lf",minute,dif);
-    printf("\n\t\t\t Player 1 Played %i Turns \n\t\t\t Player 2 Played %i Turns ",Player1.Played_Moves,Player2.Played_Moves);
+    // printf("\n\t\t\t Player 1 Played %i Turns \n\t\t\t Player 2 Played %i Turns ",Player1.Played_Moves,Player2.Played_Moves);
+    printf("\n remaining lines: %i",sum);
+
+    printf("\n turns: %i",turns);
+        printf("\n undoCounter: %i",undoCounter);
+                printf("\n last redo: %i",Last_Redo);
+
 
 }
 
@@ -372,7 +427,8 @@ ExitOrNot:
             {
             }
             else
-            {
+            {   SaveMoves(CruR,CruC);
+            Valid_Redo=0;
                 B[CruR][CruC]=0;
                 sum--;
                 Check_Box();
@@ -384,6 +440,7 @@ ExitOrNot:
                     Player2.Played_Moves++;
                 }
                 wchPlayerMove();
+                Calculate_Remainning_Dots(CruR,CruC);
 
             }
 
@@ -428,6 +485,12 @@ ExitOrNot:
             CruR+=2;
             Check_The_Game_Limits();
             A[CruR][CruC]='|';
+        }
+        else if (ClcdBtn==117){
+            undo();
+        }
+        else if (ClcdBtn==114){
+            redo();
         }
     }
 
@@ -439,7 +502,8 @@ ExitOrNot:
             {
             }
             else
-            {
+            {   SaveMoves(CruR,CruC);
+                Valid_Redo=0;
                 B[CruR][CruC]=0;
                 sum--;
                 Check_Box();
@@ -451,6 +515,7 @@ ExitOrNot:
                     Player2.Played_Moves++;
                 }
                 wchPlayerMove();
+                Calculate_Remainning_Dots(CruR,CruC);
 
             }
         }
@@ -495,7 +560,14 @@ ExitOrNot:
             Check_The_Game_Limits();
             A[CruR][CruC]='-';
         }
+        else if (ClcdBtn==117){
+            undo();
+        }
+        else if (ClcdBtn==114){
+            redo();
+        }
     }
+
 }
 //---------------------------FUNCTION THAT CHECK IF THE CRUSUR CROSSED THE PLAYGROUND LIMITS ----------------------------------
 
@@ -1132,10 +1204,33 @@ void Reset_After_Game()
     player_mode=1;
     turns=0,wchPlayer=1;
     wchSign=0;
+    undoCounter=-1;
     Player1.Played_Moves=0;
     Player1.Score=0;
     Player2.Played_Moves=0;
     Player2.Score=0;
+    minute=0; dif=0;
+    // TO RESET THE ARRAY OF REMAINING DOTS
+    for(i=0; i<R; i++)
+    {
+        for(y=0; y<C; y++)
+        {
+            if (i%2==1 && y%2==1)
+            {
+                RemainingDots[i][y]=0;
+            }
+            else if (i%2==0 && y%2==0)
+            {
+                RemainingDots[i][y]=1;
+            }
+            else
+            {
+                RemainingDots[i][y]=0;
+            }
+        }
+    }
+
+
 }
 
 void Change_In_Player_Info(int i,int y)
@@ -1257,4 +1352,181 @@ void sound(){
     else if (wchPlayer==2){
     Beep(300,120);
     }
+}
+
+void SaveMoves(int r,int c){
+    undoCounter++;
+    Last_Redo=undoCounter;
+    undoR[undoCounter]=r;
+    undoC[undoCounter]=c;
+    undoTurns[undoCounter]=wchPlayer;
+
+}
+
+void undo(){
+
+
+    if(undoCounter>=0){
+        Valid_Redo=1;
+        if(undoTurns[undoCounter]==1){
+            wchPlayer=1;
+        }
+        else if(undoTurns[undoCounter]==2){
+            wchPlayer=2;
+        }
+    int r=undoR[undoCounter];
+    int c=undoC[undoCounter];
+    A[r][c]=' ';
+    B[r][c]=1;
+    Player1.Player_Info[r][c]=0;
+    Player2.Player_Info[r][c]=0;
+    if(r%2==0){
+        if(A[r+1][c]==' '&&r<R-1){
+        }
+        else{
+            A[r+1][c]=' ';
+            if(Player1.Player_Info[r+1][c]==2){
+                Player1.Score--;
+                Player1.Player_Info[r+1][c]=0;
+                turns++;
+            }
+            else if(Player2.Player_Info[r+1][c]==2){
+                Player2.Score--;
+                Player2.Player_Info[r+1][c]=0;
+                turns++;
+            }
+        }
+        if(A[r-1][c]==' '&&r>0){
+        }
+        else{
+            A[r-1][c]=' ';
+            if(Player1.Player_Info[r-1][c]==2){
+                Player1.Score--;
+                Player1.Player_Info[r-1][c]=0;
+                turns++;
+            }
+            else if(Player2.Player_Info[r-1][c]==2){
+                Player2.Score--;
+                Player2.Player_Info[r-1][c]=0;
+                turns++;
+            }
+        }
+    }
+    else if(r%2==0){
+        if(A[r][c+1]==' '&&c<C-1){
+        }
+        else{
+            A[r][c+1]=' ';
+            if(Player1.Player_Info[r][c+1]==2){
+                Player1.Score--;
+                Player1.Player_Info[r][c+1]=0;
+                turns++;
+            }
+            else if(Player2.Player_Info[r][c+1]==2){
+                Player2.Score--;
+                Player2.Player_Info[r][c+1]=0;
+                turns++;
+            }
+        }
+        if(A[r][c-1]==' '&&r>0){
+        }
+        else{
+            A[r][c-1]=' ';
+            if(Player1.Player_Info[r][c-1]==2){
+                Player1.Score--;
+                Player1.Player_Info[r][c-1]=0;
+                turns++;
+            }
+            else if(Player2.Player_Info[r][c-1]==2){
+                Player2.Score--;
+                Player2.Player_Info[r][c-1]=0;
+                turns++;
+            }
+        }
+    }
+
+    if(undoTurns[undoCounter]==1){
+        Player1.Played_Moves--;
+    }
+    else if (undoTurns[undoCounter]==2){
+        Player2.Played_Moves--;
+    }
+
+
+    endgame(&sum);
+    turns--;
+    undoCounter--;
+}}
+
+void redo(){
+if(Valid_Redo==1){
+
+    if(undoCounter>=-1&&undoCounter<Last_Redo){
+            undoCounter++;
+        if(undoTurns[undoCounter]==1){
+            wchPlayer=1;
+            PlayerSign='A';
+        }
+        else if(undoTurns[undoCounter]==2){
+            wchPlayer=2;
+            PlayerSign='B';
+        }
+    int r=undoR[undoCounter];
+    int c=undoC[undoCounter];
+    CruR=r; CruC=c;
+    if (r%2==0&&c%2==1){
+        A[r][c]='-';
+    }
+    else if (r%2==1&&c%2==0){
+        A[r][c]='|';
+    }
+    B[r][c]=0;
+    if(wchPlayer==1){
+    Player1.Player_Info[r][c]=1;
+    }
+    else if (wchPlayer==2){
+    Player2.Player_Info[r][c]=1;
+
+    }
+
+    Check_Box();
+
+    if(undoTurns[undoCounter]==1){
+        Player1.Played_Moves++;
+    }
+    else if (undoTurns[undoCounter]==2){
+        Player2.Played_Moves++;
+    }
+
+
+    endgame(&sum);
+    turns++;
+}
+
+}
+}
+void Calculate_Remainning_Dots(int r,int c){ // IF HE WANT THE REMAINING LINES WE WILL CHANGE IN THE SAME ARRAY THE 0 IN ONE COnDITION TO 1 V.V
+    if (wchSign==4){
+        if(r<R-1){
+            RemainingDots[r+1][c]=0;
+        }
+         if (r>0){
+            RemainingDots[r-1][c]=0;
+        }
+    }
+    else if (wchSign==5){
+        if(c<C-1){
+            RemainingDots[r][c+1]=0;
+        }
+         if (c>0){
+            RemainingDots[r][c-1]=0;
+        }
+    }
+    NumRemainningDots=0;
+    for(int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            NumRemainningDots+=RemainingDots[i][y];
+        }
+    }
+
 }
