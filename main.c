@@ -25,7 +25,7 @@ time_t start,end; //To Calculate Time
 int minute=0;
 double dif=0; // VARIABLES TO CALCULATE TIME
 int ValidRow,ValidColumn; // TO CHECK IF THE INPUT IS VALID OR NOT IN ADVANCED MODE
-int PlayerVsComp=0;
+int PlayerVsComp=0,asdf=0;
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
@@ -306,7 +306,7 @@ void Print()
     printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
     if(wchPlayer==1)
     {
-        Change_Color(4);
+        Change_Color(14);
         printf("\t\t\t\t\t\t    Player 1 's Turn...");
         Reset_Color();
     }
@@ -331,11 +331,11 @@ void Print()
             {
                 if(wchPlayer==1)
                 {
-                    Change_Color(15);
+                    Change_Color(255);
                 }
                 else if(wchPlayer==2)
                 {
-                    Change_Color(15);
+                    Change_Color(255);
                 }
                 printf("%c",A[i][y]);
                 Reset_Color();
@@ -449,8 +449,14 @@ void Print()
 void Moving()
 {
 Move:
+    if (CruR%2==0&&CruC%2==1){
+        wchSign=5;WchSignCounter=2;
+    }
+    else if (CruR%2==1&&CruC%2==0){
+        wchSign=4;WchSignCounter=1;
+    }
     ClcdBtn=getche(); // TAKE THE CODE OF THE BUTTON HE CLICKED.
-    if(ClcdBtn==32) // + BUTTON TO PRINT "|" .
+    if(ClcdBtn==32) // space BUTTON TO PRINT "|" .
     {
         WchSignCounter++;
         if(WchSignCounter%2==1)
@@ -696,7 +702,7 @@ ExitOrNot:
     {
         if (ClcdBtn==13) // ENTER BUTTON TO USE THIS PLACE AND PUT THE SIGN .
         {
-            if(B[CruR][CruC]==0)
+            if(B[CruR][CruC]==0) // if the place is taken
             {
             }
             else
@@ -766,9 +772,10 @@ ExitOrNot:
         {
             if(PlayerVsComp==1)
             {
+                while(undoTurns[undoCounter]==2){
+                    undo();
+                }
                 undo();
-                undo();
-                wchPlayer=1;
             }
             else if(PlayerVsComp==0)
             {
@@ -780,12 +787,14 @@ ExitOrNot:
             if(PlayerVsComp==1)
             {
                 redo();
-                redo();
-                wchPlayer=1;
+                while(undoTurns[undoCounter+1]==2){
+                    redo();
+                }
             }
             else if(PlayerVsComp==0)
             {
                 redo();
+                wchSign=4;
             }
 
         }
@@ -864,10 +873,11 @@ ExitOrNot:
         {
             if(PlayerVsComp==1)
             {
+                while(undoTurns[undoCounter]==2){
+                    undo();
+                }
                 undo();
-                undo();
-                wchPlayer=1;
-            }
+                    }
             else if(PlayerVsComp==0)
             {
                 undo();
@@ -877,9 +887,12 @@ ExitOrNot:
         {
             if(PlayerVsComp==1)
             {
+
                 redo();
-                redo();
-                wchPlayer=1;
+                while(undoTurns[undoCounter+1]==2){
+                    redo();
+                }
+
             }
             else if(PlayerVsComp==0)
             {
@@ -1631,6 +1644,8 @@ void Reset_To_Back()
     main_choice=1;
     game_difficulty=1;
     player_mode=1;
+    PlayerVsComp=0;
+
 }
 void Reset_After_Game()
 {
@@ -1649,6 +1664,7 @@ void Reset_After_Game()
     Player2.Score=0;
     minute=0;
     dif=0;
+    PlayerVsComp=0;
     // TO RESET THE ARRAY OF REMAINING DOTS
     for(i=0; i<R; i++)
     {
@@ -1688,11 +1704,11 @@ void Change_Player_Color(int i,int y)
 {
     if(Player1.Player_Info[i][y]==1)
     {
-        Change_Color(4);
+        Change_Color(14);
     }
     else if(Player1.Player_Info[i][y]==2)
     {
-        Change_Color(79);
+        Change_Color(224);
     }
     else if(Player2.Player_Info[i][y]==1)
     {
@@ -1998,7 +2014,7 @@ void redo()
 
 
             endgame(&sum);
-            turns++;
+            wchPlayerMove();
         }
 
     }
