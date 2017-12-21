@@ -202,13 +202,36 @@
 
 1512824697 c:\users\arabtech\desktop\project-20\players.h
 
-1512832394 source:d:\kolya\1st year\programming\final project\project-21\main.c
+1512838296 source:c:\users\arabtech\desktop\project-21\main.c
 	<stdio.h>
 	<Windows.h>
 	<conio.h>
 	<stdlib.h>
 	"players.h"
 	<time.h>
+	<string.h>
 
-1512824697 d:\kolya\1st year\programming\final project\project-21\players.h
+1512833003 c:\users\arabtech\desktop\project-21\players.h
+
+1512842376 source:c:\users\arabtech\desktop\project-22\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	"players.h"
+	<time.h>
+	<string.h>
+
+1512833003 c:\users\arabtech\desktop\project-22\players.h
+
+1512956038 source:d:\kolya\1st year\programming\final project\project-23\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	"players.h"
+	<time.h>
+	<string.h>
+
+1512833004 d:\kolya\1st year\programming\final project\project-23\players.h
 

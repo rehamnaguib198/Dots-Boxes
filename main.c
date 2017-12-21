@@ -4,13 +4,14 @@
 #include <stdlib.h>
 #include "players.h"
 #include <time.h>
+#include <string.h>
 int R,C,R1,C1; //R1&C1 ARE NUMBER OF DOTS HE NEEDS TO PLAY ON .... R,C ARE ROW AND COLOUMN OF THE PLAY GROUND.
 char Size[100]; // ARRAY TO TAKE NUMBER OF ROWS AND COLOUMNS OF THE PLAYGROUND
 int i,y; //COUNTERS FOR MOST LOOPS.
 int P; // PLAYER NUMBER.
 int CruR=1,CruC=0; //WHERE THE CRUSUR ? .. ROW AND COLOUMN
 int ClcdBtn,wchSign=0,WchSignCounter=0; // BUTTON THAT THE PLAYER CLICKED ON FROM THE KEYBOARD... AND WHICH SIGN WE WILL USE - OR |
-int Arrow=0,ArrowVal=1,main_choice=1,esc_choice=1,player_mode=1,game_difficulty=1,ex=1;
+int Arrow=0,ArrowVal=1,main_choice=1,esc_choice=1,player_mode=1,game_difficulty=1,ex=1,Save_Value=1,loadValue=0;
 char backKey;  // MAIN MENU VARIABLES --- ARROW AND ARROWVAL FOR THE MOVING ARROW IN THE MAIN MENU
 char PlayerSign; // VARIABLE TO TAKE THE PLAYER SIGN 'A' OR 'B'
 int turns=0,wchPlayer=1; // NUMBER OF TURNS DURING THE GAME .. AND PLAYER 1 OR 2
@@ -25,7 +26,8 @@ time_t start,end; //To Calculate Time
 int minute=0;
 double dif=0; // VARIABLES TO CALCULATE TIME
 int ValidRow,ValidColumn; // TO CHECK IF THE INPUT IS VALID OR NOT IN ADVANCED MODE
-int PlayerVsComp=0,asdf=0;
+int PlayerVsComp=0;
+char FileName[100];
 //-----------------------------------------Players Stucture ----------------------------------
 struct Players Player1;
 struct Players Player2;
@@ -36,6 +38,7 @@ void main()
     //---------------------------TAKING THE SIZE OF PLAY GROUND----------------------------------
 VoidMenu:
     start_menu();
+    if(loadValue==0){
     R=R1*2-1; // adding places for the -
     C=C1*2-1; // adding places for the |
 Play_Again:
@@ -43,10 +46,12 @@ Play_Again:
     Arranging_Play_Ground(R,C);
     //---------------------------HERE THE GAME STARTS 3:)----------------------------------
     system("cls");
-    First_Print(); // PRINT THE PLAYGROUND WITHOUT ANYTHING
     //PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
     endgame(&sum);
     Calculate_Remainning_Dots(CruR,CruC);
+    }
+    First_Print(); // PRINT THE PLAYGROUND WITHOUT ANYTHING
+
     while(sum>0)
     {
         start = clock();
@@ -89,7 +94,7 @@ Play_Again:
 }
 
 //---------------------------FUNCTION TO ARRANGE THE PLAY GROUND AND ANOTHER ARRAYS THAT WILL HELP----------------------------------
-Arranging_Play_Ground(int R,int C)
+void Arranging_Play_Ground(int R,int C)
 {
     for(i=0; i<R; i++)
     {
@@ -105,61 +110,32 @@ Arranging_Play_Ground(int R,int C)
             }
         }
     }
+    A[CruR][CruC]='|';
 
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
+    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS----------------------------------
     //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHEACK IF A PLACE WERE TAKEN OR NOT----------------------------------
     for(i=0; i<R; i++)
     {
         for(y=0; y<C; y++)
         {
-            if (i%2==1 && y%2==1)
-            {
-                B[i][y]=0;
-            }
-            else if (i%2==0 && y%2==0)
-            {
-                B[i][y]=0;
-            }
-            else
-            {
-                B[i][y]=1;
-            }
-        }
-    }
-    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CALCULATE THE REMAINING DOTS----------------------------------
-    for(i=0; i<R; i++)
-    {
-        for(y=0; y<C; y++)
-        {
+            Player1.Player_Info[i][y]=0;
+            Player2.Player_Info[i][y]=0;
             if (i%2==1 && y%2==1)
             {
                 RemainingDots[i][y]=0;
+                B[i][y]=0;
             }
             else if (i%2==0 && y%2==0)
             {
                 RemainingDots[i][y]=1;
+                B[i][y]=0;
             }
             else
             {
                 RemainingDots[i][y]=0;
+                B[i][y]=1;
             }
-        }
-    }
-
-    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
-    for(i=0; i<R; i++)
-    {
-        for(y=0; y<C; y++)
-        {
-            Player1.Player_Info[i][y]=0;
-        }
-    }
-
-    //---------------------------MAKING ARRAY WITH THE SAME SIZE TO CHANGE COLOR FOR EACH PLAYER----------------------------------
-    for(i=0; i<R; i++)
-    {
-        for(y=0; y<C; y++)
-        {
-            Player2.Player_Info[i][y]=0;
         }
     }
 
@@ -186,6 +162,7 @@ void Reset_Color()
 void First_Print()
 
 {
+
     printf("\n\n"); // TO MAE MAKE THE GAME START IN THE MIDDLE OF THE SCREEN
     printf("\t\t\t\t\t\t    Player 1 's Turn...");
     printf("\n\n\n\t\t\t\t\t\t\t");
@@ -307,24 +284,24 @@ void Print()
     if(wchPlayer==1)
     {
         Change_Color(14);
-        printf("\t\t\t\t\t\t    Player 1 's Turn...");
+        printf("\t\t\t\t\t\t    %s's Turn",Player1.Name);
         Reset_Color();
     }
     else if (wchPlayer==2)
     {
         Change_Color(11);
-        printf("\t\t\t\t\t\t      Player 2 's Turn...");
+        printf("\t\t\t\t\t\t      %s's Turn",Player2.Name);
         Reset_Color();
     }
-    printf("\n\n\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
+    printf("\n\n\n\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
     for(i=0; i<2*C+3; i++) // THE UPPER FRAME AND +4 IS THE 2 SPACES AND THE SIDE FRAMES
     {
         printf("-");
     }
-    printf("\n\t\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
+    printf("\n\t\t\t\t\t\t"); // TO MAKE THE GAME STARTS IN THE MIDDLE OF THE SCREEN
     for(i=0; i<R; i++) // tO PRINT THE DOTS.
     {
-        printf("| "); // THE RIGHT SIDE FRAME
+        printf("| "); // THE Left SIDE FRAME
         for(y=0; y<C; y++)
         {
             if(i==CruR&&y==CruC) // IF THE CRUSUR IS HERE ... CHANGE THE COLOR AND PRINT IT .
@@ -383,44 +360,45 @@ void Print()
         }
         if(i%2==0)
         {
-            printf(" |");// THE LEFT SIDE FRAME
+            printf(" |");// THE Right SIDE FRAME
         }
         else if(i%2==1)
         {
-            printf("|");// THE LEFT SIDE FRAME
+            printf("|");// THE Right SIDE FRAME
         }
-        if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
+       /* if(i==R/2-1)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
             Change_Color(116);
-            printf("\n Player 1 Score: %i ",Player1.Score);
+            printf("\n %s's Score: %i ",Player1.Name,Player1.Score);
             Reset_Color();
             printf("\t\t\t\t\t");
         }
         else if (i==R/2)  //TO PRINT THE SCORE IN THE MIDDLE OF THE PLAY GROUND
         {
             Change_Color(121);
-            printf("\n Player 2 Score: %i ",Player2.Score);
+            printf("\n %s's Score: %i ",Player2.Name,Player2.Score);
             Reset_Color();
             printf("\t\t\t\t\t");
         }
         else if (i==R/2+1)
         {
             Change_Color(116);
-            printf("\n Player 1 Turns: %i ",Player1.Played_Moves);
+            printf("\n %s's Turns: %i ",Player1.Name,Player1.Played_Moves);
             Reset_Color();
             printf("\t\t\t\t\t");
         }
         else if (i==R/2+2)
         {
             Change_Color(121);
-            printf("\n Player 2 Turns: %i ",Player2.Played_Moves);
+            printf("\n %s's Turns: %i ",Player2.Name,Player2.Played_Moves);
             Reset_Color();
             printf("\t\t\t\t\t");
         }
         else  // TO PRINT THE PLAY GROUND IN THE MIDDLE WITH SPACES AND TABS.
         {
             printf("\n\t\t\t\t\t\t\t");
-        }
+        }*/
+        printf("\n\t\t\t\t\t\t");
     }
     for(i=0; i<2*C+3; i++)
     {
@@ -428,14 +406,24 @@ void Print()
     }
 
     if(dif>=60)
-    {
-        minute++;
-        dif-=60;
-        // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
-    }
-    printf("\n\t\t\tTIME IS :%i:%.2lf",minute,dif);
+        {
+            minute++;
+            dif-=60;
+            // PlaySound(TEXT("Yoville.wav"), NULL, SND_ASYNC);
+        }
+    printf("\n\n\n\t\t\t\t\t\tTIME IS :%i:%.2lf",minute,dif);
+    printf("\n\t\t\t\t\t\tremaining lines: %i",sum);
+
+
+    Change_Color(14);
+    printf("\n\n\t%s's Score=%i\tTurns=%i",Player1.Name,Player1.Score,Player1.Played_Moves);
+
+    Change_Color(11);
+    printf("\n\n\t%s's Score=%i\tTurns=%i",Player2.Name,Player2.Score,Player2.Played_Moves);
+    Reset_Color();
+
+
     // printf("\n\t\t\t Player 1 Played %i Turns \n\t\t\t Player 2 Played %i Turns ",Player1.Played_Moves,Player2.Played_Moves);
-    printf("\n remaining lines: %i",sum);
 
     printf("\n turns: %i",turns);
     printf("\n undoCounter: %i",undoCounter);
@@ -600,33 +588,152 @@ controls:
             }
             break;
         case 3:
+            ArrowVal=1;
 load:
-            system("cls");
-            printf("Load Game.... \n\n press esc to back");
-            Arrow=getche();
-            switch(Arrow)
-            {
-            case 27:
-                goto escmenu;
-                break;
-            default:
-                goto load;
-            }
+        system("cls");
+        switch(ArrowVal){
+            case 1:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            Change_Color(4);
+            printf("\n\n\t\t\t\t\t\t----->1-Game 1");
+            Reset_Color();
+            printf("\n\n \t\t\t\t\t\t\t2-Game 2 \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 1");
             break;
+            case 2:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1");
+            Change_Color(4);
+            printf("\n\n \t\t\t\t\t\t----->2-Game 2");
+            Reset_Color();
+            printf(" \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 2");
+            break;
+            case 3:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1\n\n \t\t\t\t\t\t\t2-Game 2");
+            Change_Color(4);
+            printf(" \n \n\t\t\t\t\t\t----->3-Game 3");
+            Reset_Color();
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 3");
+            break;
+        }
+        Arrow=getche();
+          switch(Arrow)
+        {
+
+        case 72: // UP
+            if(ArrowVal>1)
+            {
+                Beep(200,70);
+                ArrowVal--;
+                Save_Value--;
+
+            }
+            goto load;
+            break;
+        case 80: // DOWN
+            if(ArrowVal<3)
+            {
+                Beep(300,70);
+                ArrowVal++;
+                Save_Value++;
+            }
+            goto load;
+            break;
+        case 13 : // ENTER
+            Beep(130,120);
+            system("cls");
+            Load(FileName);
+            system("cls");
+            Print();
+            goto Move;
+            break;
+        case 27 :
+            system("cls");
+            goto escmenu;
+            break;
+        default:
+            goto load;
+        }
+        break;
         case 4:
+
+        ArrowVal=1;
 save:
-            system("cls");
-            printf("Save Game.... \n\n press esc to back");
-            Arrow=getche();
-            switch(Arrow)
-            {
-            case 27:
-                goto escmenu;
-                break;
-            default:
-                goto save;
-            }
+        system("cls");
+        switch(ArrowVal){
+            case 1:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\Save Game");
+            Change_Color(4);
+            printf("\n\n\t\t\t\t\t\t----->1-Game 1");
+            Reset_Color();
+            printf("\n\n \t\t\t\t\t\t\t2-Game 2 \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 1");
             break;
+            case 2:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tSave Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1");
+            Change_Color(4);
+            printf("\n\n \t\t\t\t\t\t----->2-Game 2");
+            Reset_Color();
+            printf(" \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 2");
+            break;
+            case 3:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1\n\n \t\t\t\t\t\t\t2-Game 2");
+            Change_Color(4);
+            printf(" \n \n\t\t\t\t\t\t----->3-Game 3");
+            Reset_Color();
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 3");
+            break;
+        }
+        Arrow=getche();
+          switch(Arrow)
+        {
+
+        case 72: // UP
+            if(ArrowVal>1)
+            {
+                Beep(200,70);
+                ArrowVal--;
+                Save_Value--;
+
+            }
+            goto save;
+            break;
+        case 80: // DOWN
+            if(ArrowVal<3)
+            {
+                Beep(300,70);
+                ArrowVal++;
+                Save_Value++;
+            }
+            goto save;
+            break;
+        case 13 : // ENTER
+            Beep(130,120);
+            system("cls");
+            Save(FileName);
+            system("cls");
+            Print();
+            goto Move;
+            break;
+        case 27 :
+            system("cls");
+            goto escmenu;
+            break;
+        default:
+            goto save;
+        }
+        break;
         case 5:
             ArrowVal=1;
 ExitOrNot:
@@ -929,6 +1036,7 @@ void Check_The_Game_Limits()
 //---------------------------START MENU FUNCTION-------------------------------------------------------//
 void start_menu()
 {
+    ArrowVal=1;
 menu:
     system("cls");
     switch(ArrowVal)
@@ -1058,6 +1166,29 @@ New_Game:
         switch(player_mode)
         {
         case 1:  // BUTTON 1 FOR PLAYER VS COMPUTER
+
+        // TO TAKE THE PLAYER NAME
+            system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 1's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player1.Name,100,stdin);
+            while(Player1.Name[0]=='\n'){
+            system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 1's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player1.Name,100,stdin);
+            }
+            fflush(stdin);
+            strcpy(Player2.Name,"Computer");
+            //TO ERASE THE \n FROM THE NAME
+            int i=0;
+            while (Player1.Name[i]!='\n'){
+                i++;
+            }
+            Player1.Name[i]='\0';
+        // TO CONTINUE IN THE MENU
             ArrowVal=1;
 Player_Vs_Comp:
             system("cls");
@@ -1175,9 +1306,53 @@ jumpColumn:
             }
             break;
         case 2: // BUTTON 2 FOR PLAYER 1 VS PLAYER 2
+        // TO TAKE PLAYER NAME
+        system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 1's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player1.Name,100,stdin);
+
+            while(Player1.Name[0]=='\n'){
+            system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 1's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player1.Name,100,stdin);
+            }
+
+            //TO ERASE THE \n FROM THE NAME
+            int y=0;
+            while (Player1.Name[y]!='\n'){
+                y++;
+            }
+            Player1.Name[y]='\0';
+
+            system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 2's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player2.Name,100,stdin);
+
+            while(Player2.Name[0]=='\n'){
+            system("cls");
+            printf("\n\n\n\n\n\n\n\t\t\t\t\t\t\tEnter Player 2's Name:");
+            printf("\n\n\t\t\t\t\t\t\t   ");
+            fflush(stdin);
+            fgets(Player2.Name,100,stdin);
+            }
+            //TO ERASE THE \n FROM THE NAME
+            int z=0;
+            while (Player2.Name[z]!='\n'){
+                z++;
+            }
+            Player2.Name[z]='\0';
+
+        // TO CONTINUE IN THE MENU
             ArrowVal=1;
 Player1_Vs_Player2:
             system("cls");
+
             switch (ArrowVal)
             {
             case 1:
@@ -1318,7 +1493,79 @@ jumpColumn1:
         break;
     //load game//
     case 3: // BUTTON 3
-        printf("Not Available");
+        ArrowVal=1;
+        Save_Value=1;
+load:
+        system("cls");
+        switch(ArrowVal){
+            case 1:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            Change_Color(4);
+            printf("\n\n\t\t\t\t\t\t----->1-Game 1");
+            Reset_Color();
+            printf("\n\n \t\t\t\t\t\t\t2-Game 2 \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 1");
+            break;
+            case 2:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1");
+            Change_Color(4);
+            printf("\n\n \t\t\t\t\t\t----->2-Game 2");
+            Reset_Color();
+            printf(" \n \n\t\t\t\t\t\t\t3-Game 3");
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 2");
+            break;
+            case 3:
+            printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\tLoad Game");
+            printf("\n\n\t\t\t\t\t\t\t1-Game 1\n\n \t\t\t\t\t\t\t2-Game 2");
+            Change_Color(4);
+            printf(" \n \n\t\t\t\t\t\t----->3-Game 3");
+            Reset_Color();
+            printf("\n\n\t\t\t\t\t\t\t Press esc to go back to the game...");
+            strcpy(FileName,"Save 3");
+            break;
+        }
+        Arrow=getche();
+          switch(Arrow)
+        {
+
+        case 72: // UP
+            if(ArrowVal>1)
+            {
+                Beep(200,70);
+                ArrowVal--;
+                Save_Value--;
+
+            }
+            goto load;
+            break;
+        case 80: // DOWN
+            if(ArrowVal<3)
+            {
+                Beep(300,70);
+                ArrowVal++;
+                Save_Value++;
+            }
+            goto load;
+            break;
+        case 13 : // ENTER
+            Beep(130,120);
+            system("cls");
+            Load(FileName);
+            system("cls");
+            loadValue=1;
+            goto Done;
+            break;
+        case 27 :
+            system("cls");
+            goto menu;
+            break;
+        default:
+            goto load;
+        }
+
         break;
 //top 10 players//
     case 4: // BUTTON 4
@@ -1396,6 +1643,8 @@ exit:
     default:
         goto menu;
     }
+    Done:
+    system("cls");
 }
 
 
@@ -1649,6 +1898,7 @@ void Reset_To_Back()
 }
 void Reset_After_Game()
 {
+    loadValue=0;
     Arrow=1;
     ArrowVal=1;
     ex=1;
@@ -1657,6 +1907,7 @@ void Reset_After_Game()
     player_mode=1;
     turns=0,wchPlayer=1;
     wchSign=0;
+    WchSignCounter=0;
     undoCounter=-1;
     Player1.Played_Moves=0;
     Player1.Score=0;
@@ -1664,7 +1915,12 @@ void Reset_After_Game()
     Player2.Score=0;
     minute=0;
     dif=0;
-    PlayerVsComp=0;
+    CruC=0;
+    CruR=1;
+    strcpy(Size,"");
+    sum=0,Last_Redo=0,Valid_Redo=0;
+
+
     // TO RESET THE ARRAY OF REMAINING DOTS
     for(i=0; i<R; i++)
     {
@@ -1684,6 +1940,7 @@ void Reset_After_Game()
             }
         }
     }
+
 
 
 }
@@ -1738,19 +1995,19 @@ Winner:
     system("cls");
     if ( Player1.Score > Player2.Score )
     {
-        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score (WINNER): %d",Player1.Score);
-        printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t %s's score (WINNER): %d",Player1.Name,Player1.Score);
+        printf("\n\n\n\t\t\t\t\t\t %s's score : %d",Player2.Name,Player2.Score);
     }
     else if (Player1.Score < Player2.Score)
     {
-        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 2's score (WINNER): %d",Player2.Score);
-        printf("\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t %s's score (WINNER): %d",Player2.Name,Player2.Score);
+        printf("\n\n\n\t\t\t\t\t\t %s's score : %d",Player1.Name,Player1.Score);
     }
     else if (Player1.Score == Player2.Score)
     {
-        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t Player 1's score : %d",Player1.Score);
-        printf("\n\n\n\t\t\t\t\t\t Player 2's score : %d",Player2.Score);
-        printf("\n\n\n\t\t\t\t\t\t DRAAAAAAAAAAAAAAAAAAAAAAW ");
+        printf("\n\n\n\n\n\n\n\n\t\t\t\t\t\t %s's score : %d",Player1.Name,Player1.Score);
+        printf("\n\n\n\t\t\t\t\t\t %s's score : %d",Player2.Name,Player2.Score);
+        printf("\n\n\n\t\t\t\t\t\t DRAW! ");
     }
     printf("\n\n\n\t\t\t\t\t\tpress Enter to continue ");
     enter=getche();
@@ -2216,4 +2473,72 @@ void computerRandom()
     }
 }
 
+void Save(char name[100]){
+    FILE *fSave;
+    sprintf(name, "%s.txt",name);
+    fSave=fopen(name,"w");
+    fprintf(fSave,"%i %i",R,C);
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fprintf(fSave,"%c",A[i][y]);
+        }
+    }
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fprintf(fSave,"%i ",B[i][y]);
+        }
+    }
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fprintf(fSave,"%i ",RemainingDots[i][y]);
+        }
+    }
+     for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fprintf(fSave,"%i %i ",Player1.Player_Info[i][y],Player2.Player_Info[i][y]);
+        }
+    }
+    fprintf(fSave,"%i %i %i %i %i %i %i %i %i %i %lf %i %i %i %i ",CruR,CruC,ClcdBtn,wchSign,WchSignCounter,turns,wchPlayer,NumRemainningDots,sum,minute,dif,PlayerVsComp,undoCounter,Valid_Redo,Last_Redo);
+    for(int i=0;i<=undoCounter;i++){
+        fprintf(fSave,"%i %i %i ",undoR[i],undoC[i],undoTurns[i]);
+    }
+    fprintf(fSave,"%i %i %i %i ",Player1.Played_Moves,Player1.Score,Player2.Played_Moves,Player2.Score);
+    fprintf(fSave,"%c ",PlayerSign);
+    fprintf(fSave,"%s; %s,",Player1.Name,Player2.Name);
+    fclose(fSave);
+}
 
+void Load(char name[100]){
+    FILE *fSave;
+    sprintf(name, "%s.txt",name);
+    fSave=fopen(name,"r");
+    fscanf(fSave,"%i %i",&R,&C);
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fscanf(fSave,"%c",&A[i][y]);
+        }
+    }
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fscanf(fSave,"%i ",&B[i][y]);
+        }
+    }
+    for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fscanf(fSave,"%i ",&RemainingDots[i][y]);
+        }
+    }
+     for (int i=0;i<R;i++){
+        for(int y=0;y<C;y++){
+            fscanf(fSave,"%i %i ",&Player1.Player_Info[i][y],&Player2.Player_Info[i][y]);
+        }
+    }
+    fscanf(fSave,"%i %i %i %i %i %i %i %i %i %i %lf %i %i %i %i ",&CruR,&CruC,&ClcdBtn,&wchSign,&WchSignCounter,&turns,&wchPlayer,&NumRemainningDots,&sum,&minute,&dif,&PlayerVsComp,&undoCounter,&Valid_Redo,&Last_Redo);
+    for(int i=0;i<=undoCounter;i++){
+        fscanf(fSave,"%i %i %i ",&undoR[i],&undoC[i],&undoTurns[i]);
+    }
+    fscanf(fSave,"%i %i %i %i ",&Player1.Played_Moves,&Player1.Score,&Player2.Played_Moves,&Player2.Score);
+    fscanf(fSave,"%c ",&PlayerSign);
+    fscanf(fSave,"%[^;]; %[^,]",&Player1.Name,&Player2.Name);
+    fclose(fSave);
+}
