@@ -34,10 +34,46 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="Files/CheckBox.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/CheckBox.h" />
+		<Unit filename="Files/Computer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Computer.h" />
+		<Unit filename="Files/Menu.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Menu.h" />
+		<Unit filename="Files/Moving.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Moving.h" />
+		<Unit filename="Files/Playing.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Playing.h" />
+		<Unit filename="Files/Print.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Print.h" />
+		<Unit filename="Files/Save&amp;load.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Save&amp;load.h" />
+		<Unit filename="Files/Top10.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Top10.h" />
+		<Unit filename="Files/Undo&amp;Redo.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Files/Undo&amp;Redo.h" />
+		<Unit filename="Files/players.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="players.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

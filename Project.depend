@@ -312,14 +312,815 @@
 
 1513353617 d:\kolya\1st year\programming\final project\project-30\players.h
 
-1513591129 source:c:\users\arabtech\desktop\project-33\main.c
+1513552395 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\checkbox.c
+	"CheckBox.h"
+
+1513553636 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513554076 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\players.h
+
+1513553361 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513553721 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\computer.h
+	<time.h>
+	"players.h"
+
+1513552262 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513553747 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\menu.h
+	<time.h>
+	"players.h"
+
+1513552009 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513553767 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\moving.h
+	<time.h>
+	"players.h"
+
+1513549877 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\playing.c
+	"Playing.h"
+
+1513549990 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\playing.h
+	<time.h>
+
+1513551151 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513553804 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\print.h
+	<time.h>
+	"players.h"
+
+1513553013 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513554310 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513553193 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513554282 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\top10.h
+	<time.h>
+	"players.h"
+
+1513552596 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513554256 d:\kolya\1st year\programming\final project\project-33 t2ked-2\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513555697 source:d:\kolya\1st year\programming\final project\project-33 t2ked-2\main.c
 	<stdio.h>
 	<Windows.h>
 	<conio.h>
 	<stdlib.h>
-	"players.h"
 	<time.h>
 	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
 
-1513353618 c:\users\arabtech\desktop\project-33\players.h
+1513552395 source:d:\kolya\1st year\programming\final project\project-34\files\checkbox.c
+	"CheckBox.h"
+
+1513553636 d:\kolya\1st year\programming\final project\project-34\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513554076 d:\kolya\1st year\programming\final project\project-34\files\players.h
+
+1513637730 source:d:\kolya\1st year\programming\final project\project-34\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513553721 d:\kolya\1st year\programming\final project\project-34\files\computer.h
+	<time.h>
+	"players.h"
+
+1513626000 source:d:\kolya\1st year\programming\final project\project-34\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513553747 d:\kolya\1st year\programming\final project\project-34\files\menu.h
+	<time.h>
+	"players.h"
+
+1513626268 source:d:\kolya\1st year\programming\final project\project-34\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513553767 d:\kolya\1st year\programming\final project\project-34\files\moving.h
+	<time.h>
+	"players.h"
+
+1513549877 source:d:\kolya\1st year\programming\final project\project-34\files\playing.c
+	"Playing.h"
+
+1513549990 d:\kolya\1st year\programming\final project\project-34\files\playing.h
+	<time.h>
+
+1513551151 source:d:\kolya\1st year\programming\final project\project-34\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513553804 d:\kolya\1st year\programming\final project\project-34\files\print.h
+	<time.h>
+	"players.h"
+
+1513553013 source:d:\kolya\1st year\programming\final project\project-34\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513554310 d:\kolya\1st year\programming\final project\project-34\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513625496 source:d:\kolya\1st year\programming\final project\project-34\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513596292 d:\kolya\1st year\programming\final project\project-34\files\top10.h
+	<time.h>
+	"players.h"
+
+1513552596 source:d:\kolya\1st year\programming\final project\project-34\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513554256 d:\kolya\1st year\programming\final project\project-34\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513617945 source:d:\kolya\1st year\programming\final project\project-34\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513552395 source:d:\kolya\1st year\programming\final project\project-35\files\checkbox.c
+	"CheckBox.h"
+
+1513553636 d:\kolya\1st year\programming\final project\project-35\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513554076 d:\kolya\1st year\programming\final project\project-35\files\players.h
+
+1513637730 source:d:\kolya\1st year\programming\final project\project-35\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513553721 d:\kolya\1st year\programming\final project\project-35\files\computer.h
+	<time.h>
+	"players.h"
+
+1513727200 source:d:\kolya\1st year\programming\final project\project-35\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513553747 d:\kolya\1st year\programming\final project\project-35\files\menu.h
+	<time.h>
+	"players.h"
+
+1513727577 source:d:\kolya\1st year\programming\final project\project-35\files\playing.c
+	"Playing.h"
+
+1513727782 d:\kolya\1st year\programming\final project\project-35\files\playing.h
+	<time.h>
+
+1513728150 source:d:\kolya\1st year\programming\final project\project-35\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513727750 d:\kolya\1st year\programming\final project\project-35\files\print.h
+	<time.h>
+	"players.h"
+
+1513553013 source:d:\kolya\1st year\programming\final project\project-35\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513554310 d:\kolya\1st year\programming\final project\project-35\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513625496 source:d:\kolya\1st year\programming\final project\project-35\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513596292 d:\kolya\1st year\programming\final project\project-35\files\top10.h
+	<time.h>
+	"players.h"
+
+1513552596 source:d:\kolya\1st year\programming\final project\project-35\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513554256 d:\kolya\1st year\programming\final project\project-35\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513727750 source:d:\kolya\1st year\programming\final project\project-35\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513727750 d:\kolya\1st year\programming\final project\project-35\files\moving.h
+	<time.h>
+	"players.h"
+
+1513727521 source:d:\kolya\1st year\programming\final project\project-35\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513552395 source:d:\kolya\1st year\programming\final project\project-36\files\checkbox.c
+	"CheckBox.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\players.h
+
+1513637730 source:d:\kolya\1st year\programming\final project\project-36\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\computer.h
+	<time.h>
+	"players.h"
+
+1513728405 source:d:\kolya\1st year\programming\final project\project-36\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513777522 d:\kolya\1st year\programming\final project\project-36\files\menu.h
+	<time.h>
+	"players.h"
+
+1513727521 source:d:\kolya\1st year\programming\final project\project-36\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\moving.h
+	<time.h>
+	"players.h"
+
+1513727577 source:d:\kolya\1st year\programming\final project\project-36\files\playing.c
+	"Playing.h"
+
+1513727782 d:\kolya\1st year\programming\final project\project-36\files\playing.h
+	<time.h>
+
+1513728150 source:d:\kolya\1st year\programming\final project\project-36\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\print.h
+	<time.h>
+	"players.h"
+
+1513553013 source:d:\kolya\1st year\programming\final project\project-36\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513625496 source:d:\kolya\1st year\programming\final project\project-36\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\top10.h
+	<time.h>
+	"players.h"
+
+1513552596 source:d:\kolya\1st year\programming\final project\project-36\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-36\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513777552 source:d:\kolya\1st year\programming\final project\project-36\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513809977 source:d:\kolya\1st year\programming\final project\project-37\files\checkbox.c
+	"CheckBox.h"
+
+1513812993 d:\kolya\1st year\programming\final project\project-37\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-37\files\players.h
+
+1513813237 source:d:\kolya\1st year\programming\final project\project-37\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513813016 d:\kolya\1st year\programming\final project\project-37\files\computer.h
+	<time.h>
+	"players.h"
+
+1513817407 source:d:\kolya\1st year\programming\final project\project-37\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513813049 d:\kolya\1st year\programming\final project\project-37\files\menu.h
+	<time.h>
+	"players.h"
+
+1513813237 source:d:\kolya\1st year\programming\final project\project-37\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513813002 d:\kolya\1st year\programming\final project\project-37\files\moving.h
+	<time.h>
+	"players.h"
+
+1513727577 source:d:\kolya\1st year\programming\final project\project-37\files\playing.c
+	"Playing.h"
+
+1513727782 d:\kolya\1st year\programming\final project\project-37\files\playing.h
+	<time.h>
+
+1513822185 source:d:\kolya\1st year\programming\final project\project-37\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513813009 d:\kolya\1st year\programming\final project\project-37\files\print.h
+	<time.h>
+	"players.h"
+
+1513822178 source:d:\kolya\1st year\programming\final project\project-37\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513813022 d:\kolya\1st year\programming\final project\project-37\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513625496 source:d:\kolya\1st year\programming\final project\project-37\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513812981 d:\kolya\1st year\programming\final project\project-37\files\top10.h
+	<time.h>
+	"players.h"
+
+1513815978 source:d:\kolya\1st year\programming\final project\project-37\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513812978 d:\kolya\1st year\programming\final project\project-37\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513820219 source:d:\kolya\1st year\programming\final project\project-37\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513809977 source:d:\kolya\1st year\programming\final project\project-38\files\checkbox.c
+	"CheckBox.h"
+
+1513860237 d:\kolya\1st year\programming\final project\project-38\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\project-38\files\players.h
+
+1513813237 source:d:\kolya\1st year\programming\final project\project-38\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513860111 d:\kolya\1st year\programming\final project\project-38\files\computer.h
+	<time.h>
+	"players.h"
+
+1513861139 source:d:\kolya\1st year\programming\final project\project-38\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513860123 d:\kolya\1st year\programming\final project\project-38\files\menu.h
+	<time.h>
+	"players.h"
+
+1513813237 source:d:\kolya\1st year\programming\final project\project-38\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513860128 d:\kolya\1st year\programming\final project\project-38\files\moving.h
+	<time.h>
+	"players.h"
+
+1513727577 source:d:\kolya\1st year\programming\final project\project-38\files\playing.c
+	"Playing.h"
+
+1513860138 d:\kolya\1st year\programming\final project\project-38\files\playing.h
+	<time.h>
+
+1513862470 source:d:\kolya\1st year\programming\final project\project-38\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513860143 d:\kolya\1st year\programming\final project\project-38\files\print.h
+	<time.h>
+	"players.h"
+
+1513822178 source:d:\kolya\1st year\programming\final project\project-38\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513860149 d:\kolya\1st year\programming\final project\project-38\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513863819 source:d:\kolya\1st year\programming\final project\project-38\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513860154 d:\kolya\1st year\programming\final project\project-38\files\top10.h
+	<time.h>
+	"players.h"
+
+1513815978 source:d:\kolya\1st year\programming\final project\project-38\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513860158 d:\kolya\1st year\programming\final project\project-38\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513862692 source:d:\kolya\1st year\programming\final project\project-38\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513809977 source:d:\kolya\1st year\programming\final project\final project-39\files\checkbox.c
+	"CheckBox.h"
+
+1513890142 d:\kolya\1st year\programming\final project\final project-39\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\final project-39\files\players.h
+
+1513813237 source:d:\kolya\1st year\programming\final project\final project-39\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513890274 d:\kolya\1st year\programming\final project\final project-39\files\computer.h
+	<time.h>
+	"players.h"
+
+1513861139 source:d:\kolya\1st year\programming\final project\final project-39\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513890248 d:\kolya\1st year\programming\final project\final project-39\files\menu.h
+	<time.h>
+	"players.h"
+
+1513897664 source:d:\kolya\1st year\programming\final project\final project-39\files\moving.c
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513890256 d:\kolya\1st year\programming\final project\final project-39\files\moving.h
+	<time.h>
+	"players.h"
+
+1513727577 source:d:\kolya\1st year\programming\final project\final project-39\files\playing.c
+	"Playing.h"
+
+1513860138 d:\kolya\1st year\programming\final project\final project-39\files\playing.h
+	<time.h>
+
+1513822178 source:d:\kolya\1st year\programming\final project\final project-39\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513890207 d:\kolya\1st year\programming\final project\final project-39\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513897889 source:d:\kolya\1st year\programming\final project\final project-39\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513890198 d:\kolya\1st year\programming\final project\final project-39\files\top10.h
+	<time.h>
+	"players.h"
+
+1513900078 source:d:\kolya\1st year\programming\final project\final project-39\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513890237 d:\kolya\1st year\programming\final project\final project-39\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513897764 source:d:\kolya\1st year\programming\final project\final project-39\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513890878 d:\kolya\1st year\programming\final project\final project-39\files\print.h
+	<time.h>
+	"players.h"
+
+1513891034 source:d:\kolya\1st year\programming\final project\final project-39\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513809977 source:d:\kolya\1st year\programming\final project\final project-40\files\checkbox.c
+	"CheckBox.h"
+
+1513890142 d:\kolya\1st year\programming\final project\final project-40\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\final project-40\files\players.h
+
+1513813237 source:d:\kolya\1st year\programming\final project\final project-40\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513890274 d:\kolya\1st year\programming\final project\final project-40\files\computer.h
+	<time.h>
+	"players.h"
+
+1513956377 source:d:\kolya\1st year\programming\final project\final project-40\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513890248 d:\kolya\1st year\programming\final project\final project-40\files\menu.h
+	<time.h>
+	"players.h"
+
+1513949072 source:d:\kolya\1st year\programming\final project\final project-40\files\playing.c
+	"Playing.h"
+
+1513949063 d:\kolya\1st year\programming\final project\final project-40\files\playing.h
+	<time.h>
+
+1513948427 source:d:\kolya\1st year\programming\final project\final project-40\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513890878 d:\kolya\1st year\programming\final project\final project-40\files\print.h
+	<time.h>
+	"players.h"
+
+1513822178 source:d:\kolya\1st year\programming\final project\final project-40\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513890207 d:\kolya\1st year\programming\final project\final project-40\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513953164 source:d:\kolya\1st year\programming\final project\final project-40\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513890198 d:\kolya\1st year\programming\final project\final project-40\files\top10.h
+	<time.h>
+	"players.h"
+
+1513900472 source:d:\kolya\1st year\programming\final project\final project-40\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513890237 d:\kolya\1st year\programming\final project\final project-40\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513957687 source:d:\kolya\1st year\programming\final project\final project-40\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
+
+1513949070 d:\kolya\1st year\programming\final project\final project-40\files\moving.h
+	<time.h>
+	"players.h"
+
+1513956654 source:d:\kolya\1st year\programming\final project\final project-40\files\moving.c
+	<stdio.h>
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513965148 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\checkbox.c
+	"CheckBox.h"
+
+1513890142 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\checkbox.h
+	<time.h>
+	"players.h"
+
+1513777524 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\players.h
+
+1513968351 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\computer.c
+	<stdio.h>
+	"Computer.h"
+
+1513890274 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\computer.h
+	<time.h>
+	"players.h"
+
+1513956377 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\menu.c
+	<windows.h>
+	<stdio.h>
+	"Menu.h"
+
+1513890248 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\menu.h
+	<time.h>
+	"players.h"
+
+1513968745 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\moving.c
+	<stdio.h>
+	<time.h>
+	<windows.h>
+	"Moving.h"
+
+1513949070 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\moving.h
+	<time.h>
+	"players.h"
+
+1513949072 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\playing.c
+	"Playing.h"
+
+1513949063 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\playing.h
+	<time.h>
+
+1513948427 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\print.c
+	"Print.h"
+	<Windows.h>
+
+1513890878 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\print.h
+	<time.h>
+	"players.h"
+
+1513822178 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\save&load.c
+	"Save&load.h"
+	<stdio.h>
+
+1513890207 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\save&load.h
+	<time.h>
+	"players.h"
+
+1513953164 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\top10.c
+	<stdio.h>
+	"Top10.h"
+
+1513890198 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\top10.h
+	<time.h>
+	"players.h"
+
+1513900472 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\files\undo&redo.c
+	"Undo&Redo.h"
+
+1513890237 d:\kolya\1st year\programming\final project\final project-42\final project-41\files\undo&redo.h
+	<time.h>
+	"players.h"
+
+1513964694 source:d:\kolya\1st year\programming\final project\final project-42\final project-41\main.c
+	<stdio.h>
+	<Windows.h>
+	<conio.h>
+	<stdlib.h>
+	<time.h>
+	<string.h>
+	"Files/players.h"
+	"Files/Playing.h"
+	"Files/Print.h"
+	"Files/Moving.h"
+	"Files/CheckBox.h"
+	"Files/Computer.h"
+	"Files/Menu.h"
+	"Files/Save&load.h"
+	"Files/Top10.h"
+	"Files/Undo&Redo.h"
 
